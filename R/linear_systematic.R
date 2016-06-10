@@ -33,6 +33,7 @@
 #' Most of Statistical Analyses: Improving Interpretation and Presentation."
 #' American Journal of Political Science 44(2): 341-55.
 #'
+#'
 #' @export
 
 linear_systematic <- function(b_sims, newdata, inc_intercept = TRUE) {

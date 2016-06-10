@@ -56,20 +56,20 @@ head(linear_qi)
 ```
 
 ```
-##      education typewc      qi_
-## 4001        10      1 43.02941
-## 4002        10      1 44.78472
-## 4003        10      1 44.81280
-## 4004        10      1 38.43651
-## 4005        10      1 38.46429
-## 4006        10      1 40.70891
+##   education typewc      qi_
+## 1         6      1 22.19099
+## 2         6      1 25.29804
+## 3         6      1 22.56303
+## 4         6      1 22.41940
+## 5         6      1 19.00445
+## 7         6      1 21.63826
 ```
 
 ## Example: Predicted probabilities from logistic regressions
 
 By default `qi_builder` simply returns the linear systematic component, which 
-in normal linear regression is simply predicted $y$, i.e. 
-$y = \alpha + \mathrm{\beta\X}$.
+in normal linear regression is simply the predicted y, i.e. 
+$y = \alpha + \mathrm{\beta X}$.
 
 `qi_builder` allows you to supply any function for creating quantities of 
 interest that you would like. This function needs to simply be able to convert
@@ -110,12 +110,12 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4       qi_
-## 1 220   2     1 0.2688673
-## 2 220   2     1 0.1766583
-## 3 220   2     1 0.4903065
-## 4 220   2     1 0.2708824
-## 5 220   2     1 0.2687912
-## 6 220   2     1 0.3610819
+## 1 220   2     1 0.3120906
+## 2 220   2     1 0.3914245
+## 3 220   2     1 0.1716068
+## 4 220   2     1 0.1941566
+## 5 220   2     1 0.4822808
+## 6 220   2     1 0.2175676
 ```
 
 

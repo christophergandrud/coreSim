@@ -51,8 +51,8 @@ head(linear_qi)
 ## Example: Predicted probabilities from logistic regressions
 
 By default `qi_builder` simply returns the linear systematic component, which 
-in normal linear regression is simply predicted $y$, i.e. 
-$y = \alpha + \mathrm{\beta\X}$.
+in normal linear regression is simply the predicted y, i.e. 
+$y = \alpha + \mathrm{\beta X}$.
 
 `qi_builder` allows you to supply any function for creating quantities of 
 interest that you would like. This function needs to simply be able to convert

@@ -79,8 +79,8 @@ qi_builder <- function(b_sims, newdata, model, ci = 0.95, ...) {
     if (ci < 1) {
         lower <- (1 - ci)/2
         upper <- 1 - lower
-        qi_df$scenario_ <- apply(qi_df[, 1:(ncol(qi_df)-1)], 1, paste,
-                                collapse = '_')
+
+        qi_df$scenario_ <- interaction(qi_df[, 1:(ncol(qi_df)-1)])
         qi_list <- split(qi_df, qi_df[['scenario_']])
 
         qi_list <- lapply(1:length(qi_list), function(x){
