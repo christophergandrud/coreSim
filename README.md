@@ -23,10 +23,10 @@ packages for finding and plotting simulated quantities of interest from GLMs.
 
 3. Find your quantities of intest with `qi_builder`.
 
-4. Present your results, e.g. with by plotting the simulated quantities of 
+4. Present your results, e.g. by plotting the simulated quantities of 
 interest.
 
-## Examples: Normal linear model 
+## Example: Normal linear model 
 
 Here is an example using data from the **car** package:
 
@@ -43,7 +43,7 @@ m1_sims <- b_sim(m1)
 # Create fitted values
 fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
 
-# Find predicted outcomes
+# Find predicted outcomes (95% central interval, by default)
 linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
 ```
 
@@ -57,14 +57,19 @@ head(linear_qi)
 
 ```
 ##      education typewc      qi_
-## 4001        10      1 38.14608
-## 4002        10      1 31.10037
-## 4003        10      1 34.25039
-## 4004        10      1 40.26273
-## 4005        10      1 37.06244
-## 4006        10      1 42.64026
+## 4001        10      1 35.69025
+## 4002        10      1 48.14420
+## 4003        10      1 37.68486
+## 4004        10      1 35.59671
+## 4005        10      1 48.08605
+## 4006        10      1 40.95513
 ```
 
+## Example: Predicted probabilities from logistic regressions
+
+By default `qi_builder` simply returns the linear systematic component, which 
+in normal linear regression is simply predicted $y$, i.e. 
+$y = \alpha + \mathrm{\beta\X}$.
 
 
 

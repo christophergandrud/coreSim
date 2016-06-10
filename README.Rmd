@@ -26,7 +26,7 @@ packages for finding and plotting simulated quantities of interest from GLMs.
 4. Present your results, e.g. by plotting the simulated quantities of 
 interest.
 
-## Examples: Normal linear model 
+## Example: Normal linear model 
 
 Here is an example using data from the **car** package:
 
@@ -42,12 +42,17 @@ m1_sims <- b_sim(m1)
 # Create fitted values
 fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
 
-# Find predicted outcomes
+# Find predicted outcomes (95% central interval, by default)
 linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
 
 head(linear_qi)
 ```
 
+## Example: Predicted probabilities from logistic regressions
+
+By default `qi_builder` simply returns the linear systematic component, which 
+in normal linear regression is simply predicted $y$, i.e. 
+$y = \alpha + \mathrm{\beta\X}$.
 
 
 
