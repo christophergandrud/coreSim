@@ -23,7 +23,7 @@ packages for finding and plotting simulated quantities of interest from GLMs.
 
 3. Find your quantities of intest with `qi_builder`.
 
-4. Present your results, e.g. with by plotting the simulated quantities of 
+4. Present your results, e.g. by plotting the simulated quantities of 
 interest.
 
 ## Examples: Normal linear model 
