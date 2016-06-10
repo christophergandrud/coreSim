@@ -57,12 +57,12 @@ head(linear_qi)
 
 ```
 ##      education typewc      qi_
-## 4001        10      1 35.69025
-## 4002        10      1 48.14420
-## 4003        10      1 37.68486
-## 4004        10      1 35.59671
-## 4005        10      1 48.08605
-## 4006        10      1 40.95513
+## 4001        10      1 43.02941
+## 4002        10      1 44.78472
+## 4003        10      1 44.81280
+## 4004        10      1 38.43651
+## 4005        10      1 38.46429
+## 4006        10      1 40.70891
 ```
 
 ## Example: Predicted probabilities from logistic regressions
@@ -70,6 +70,53 @@ head(linear_qi)
 By default `qi_builder` simply returns the linear systematic component, which 
 in normal linear regression is simply predicted $y$, i.e. 
 $y = \alpha + \mathrm{\beta\X}$.
+
+`qi_builder` allows you to supply any function for creating quantities of 
+interest that you would like. This function needs to simply be able to convert
+a vector of linear systematic components to your quantity of interest. 
+
+For example, to find predicted probabilities from a logistic regression model
+create a function to turn the systematic component into the QI:
+
+
+```r
+pr_fun <- function(x) 1 / (1 + exp(x))
+```
+
+Then supply it to `qi_builder`'s `model` argument:
+
+
+```r
+# Download data
+URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
+Admission <- read.csv(URL)
+Admission$rank <- as.factor(Admission$rank)
+
+# Estimate model
+m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
+
+# Simulate coefficients
+m2_sims <- b_sim(m2)
+
+# Create fitted values
+m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
+                         rank4 = 1)
+
+# Find quantity of interest
+logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun)
+
+head(logistic_qi)
+```
+
+```
+##   gre gpa rank4       qi_
+## 1 220   2     1 0.2688673
+## 2 220   2     1 0.1766583
+## 3 220   2     1 0.4903065
+## 4 220   2     1 0.2708824
+## 5 220   2     1 0.2687912
+## 6 220   2     1 0.3610819
+```
 
 
 
