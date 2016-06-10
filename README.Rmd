@@ -1,6 +1,6 @@
 ![coreSim logo](img/coreSim_logo.png)
 
-`r  packageVersion('coreSim')` [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
+Version: `r  packageVersion('coreSim')` [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 
 > Core functionality for simulating quantities of interest from generalised linear 
 models.
