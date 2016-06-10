@@ -30,8 +30,7 @@ interest.
 
 Here is an example using data from the **car** package:
 
-
-```r
+```{r}
 library(coreSim)
 library(car)
 
@@ -45,24 +44,8 @@ fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
 
 # Find predicted outcomes
 linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
-```
 
-```
-## Note: model argument missing -> assuming normal linear model.
-```
-
-```r
 head(linear_qi)
-```
-
-```
-##      education typewc      qi_
-## 4001        10      1 38.14608
-## 4002        10      1 31.10037
-## 4003        10      1 34.25039
-## 4004        10      1 40.26273
-## 4005        10      1 37.06244
-## 4006        10      1 42.64026
 ```
 
 
