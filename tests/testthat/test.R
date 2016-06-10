@@ -53,5 +53,5 @@ logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
 
 test_that('qi_builder output validity', {
     expect_equal(round(sum(linear_qi$qi_)), 468114)
-    expect_equal(round(sum(logistic_qi)), 57639730)
+    expect_equal(round(sum(logistic_qi)), 57639562)
 })
