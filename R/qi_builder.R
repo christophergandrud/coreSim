@@ -53,6 +53,7 @@
 #' logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
 #'
 #' @importFrom stats quantile
+#' @importFrom dplyr bind_rows
 #'
 #' @export
 
@@ -88,7 +89,8 @@ qi_builder <- function(b_sims, newdata, model, ci = 0.95, ...) {
             upper_bound <- quantile(qi_list[[x]][,'qi_'], prob = upper)
             subset(qi_list[[x]], qi_ >= lower_bound & qi_ <= upper_bound)
         })
-        qi_df <- do.call(rbind, qi_list)
+
+        qi_df <- data.frame(bind_rows(qi_list))
         qi_df$scenario_ <- NULL
     }
     return(qi_df)
