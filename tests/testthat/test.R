@@ -107,3 +107,22 @@ test_that('qi_slimmer output validity', {
     expect_equal(names(linear_slim), c('education', 'typewc', 'qi_min',
                                        'qi_median', 'qi_max'))
 })
+
+
+# Test interaction_builder -----------------------------------------------------
+test_that('interaction_builder output validity', {
+    states <- as.data.frame(state.x77)
+    m1 <- lm(Murder ~ Income * Population, data = states)
+    b_sims <- b_sim(m1)
+
+    fitted_df_1 <- expand.grid(Income = unique(states$Income), Population = 4246)
+    fitted_df_2 <- fitted_df_1
+    fitted_df_2$Income.Population <- fitted_df_2$Income * fitted_df_2$Population
+
+    inter_df_1 <- coreSim:::interaction_builder(b_sims, fitted_df_1)
+    inter_df_2 <- coreSim:::interaction_builder(b_sims, fitted_df_2)
+
+    expect_equal(inter_df_1$Income * inter_df_1$Population,
+                 inter_df_1$Income.Population)
+    expect_equal(inter_df_1$Income.Population, inter_df_2$Income.Population)
+})

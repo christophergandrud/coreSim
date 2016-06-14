@@ -57,3 +57,28 @@ qi_slimmer <- function(df){
     df_out$scenario_ <- NULL
     return(df_out)
 }
+
+
+#' Find two way interactions in fitted data frame
+#'
+#' @noRd
+
+interaction_builder <- function(b_sims, newdata) {
+    fitted_names <- names(newdata)
+    sim_names <- names(b_sims)
+    interactions <- intersect(
+        combn(fitted_names, 2, FUN = paste, collapse = '.'), sim_names)
+
+    if (length(interactions) != 0) {
+        for (i in interactions) {
+            if (!(all(grepl(i, fitted_names)))) {
+                parts_temp <- unlist(strsplit(i, '\\.'))
+                if (all(parts_temp %in% fitted_names)) {
+                    newdata[, i] <- newdata[[parts_temp[[1]]]] *
+                        newdata[[parts_temp[[2]]]]
+                }
+            }
+        }
+    }
+    return(newdata)
+}
