@@ -22,7 +22,7 @@ packages for finding and plotting simulated quantities of interest from GLMs.
 
 2. Simulate coefficients with `b_sim`.
 
-3. Find your quantities of intest with `qi_builder`.
+3. Find your quantities of interest with `qi_builder`.
 
 4. Present your results, e.g. by plotting the simulated quantities of 
 interest.
@@ -49,15 +49,17 @@ linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
 head(linear_qi)
 ```
 
+### Slimmed simulation data
+
 By default `qi_builder` will return all of the simulations inside the central 
 interval of the simulations for each scenario that you specify with the `ci` 
 argument (this is `0.95` by default for 95% central interval). 
 
 However, you may want to only return key features of this interval so that they
 can be efficiently stored and plotted. Using `slim = TRUE` will return only the
-minimun, median, and maximum values of the central interval for each scenario:
+minimum, median, and maximum values of the central interval for each scenario:
 
-```{r}
+```{r, message=FALSE}
 linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1, 
                              slim = TRUE)
 
@@ -113,6 +115,8 @@ m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
 
 # Find quantity of interest
 logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun, slim = TRUE)
+
+head(logistic_qi)
 ```
 
 

@@ -22,7 +22,7 @@ packages for finding and plotting simulated quantities of interest from GLMs.
 
 2. Simulate coefficients with `b_sim`.
 
-3. Find your quantities of intest with `qi_builder`.
+3. Find your quantities of interest with `qi_builder`.
 
 4. Present your results, e.g. by plotting the simulated quantities of 
 interest.
@@ -58,13 +58,15 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 19.16991
-## 2         6      1 23.26034
-## 3         6      1 22.49117
-## 4         6      1 19.48314
-## 5         6      1 17.05639
-## 6         6      1 17.17741
+## 1         6      1 19.38142
+## 2         6      1 21.43892
+## 3         6      1 14.22089
+## 4         6      1 19.84769
+## 5         6      1 16.26149
+## 6         6      1 17.72238
 ```
+
+### Slimmed simulation data
 
 By default `qi_builder` will return all of the simulations inside the central 
 interval of the simulations for each scenario that you specify with the `ci` 
@@ -72,30 +74,24 @@ argument (this is `0.95` by default for 95% central interval).
 
 However, you may want to only return key features of this interval so that they
 can be efficiently stored and plotted. Using `slim = TRUE` will return only the
-minimun, median, and maximum values of the central interval for each scenario:
+minimum, median, and maximum values of the central interval for each scenario:
 
 
 ```r
 linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1, 
                              slim = TRUE)
-```
 
-```
-## Note: model argument missing -> assuming normal linear model.
-```
-
-```r
 head(linear_qi_slim)
 ```
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 12.03153  19.28303 26.55257
-## 2         7      1 17.87690  23.80418 30.09274
-## 3         8      1 23.46165  28.44959 33.50827
-## 4         9      1 28.92824  32.96829 37.40324
-## 5        10      1 34.11213  37.47715 41.18952
-## 6        11      1 38.98086  42.10606 45.41850
+## 1         6      1 11.82625  19.14348 26.42974
+## 2         7      1 17.51546  23.67221 29.66748
+## 3         8      1 23.14490  28.24632 33.32998
+## 4         9      1 28.73605  32.88016 36.83529
+## 5        10      1 34.02702  37.50726 40.66255
+## 6        11      1 38.97920  41.99247 44.99295
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -152,6 +148,18 @@ m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
 
 # Find quantity of interest
 logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun, slim = TRUE)
+
+head(logistic_qi)
+```
+
+```
+##   gre gpa rank4      qi_min  qi_median     qi_max
+## 1 220   1     1 0.002647372 0.01416992 0.07067504
+## 2 230   1     1 0.002749511 0.01442622 0.07066225
+## 3 240   1     1 0.002823564 0.01469663 0.07222144
+## 4 250   1     1 0.002892476 0.01497890 0.07381229
+## 5 260   1     1 0.002928574 0.01529569 0.07543535
+## 6 270   1     1 0.002999106 0.01561182 0.07709112
 ```
 
 
