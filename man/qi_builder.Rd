@@ -4,7 +4,7 @@
 \alias{qi_builder}
 \title{Find quantities of interest from generalized linear models}
 \usage{
-qi_builder(b_sims, newdata, model, ci = 0.95, ...)
+qi_builder(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...)
 }
 \arguments{
 \item{b_sims}{a data frame created by \code{\link{b_sim}} of simulated
@@ -20,14 +20,20 @@ linear regression model is assumed and the predicted values are returned
 from a vector of the fitted linear systematic component.}
 
 \item{ci}{the proportion of the central interval of the simulations to
-return. Must be in [0, 1].}
+return. Must be in (0, 1].}
 
-\item{...}{arguments to pass to \code{\link{linear_systematic}}}
+\item{slim}{logical indicating whether to (if \code{FALSE}) return all
+simulations in the central interval specified by \code{ci} for each fitted
+scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
+See \code{\link{qi_slimmer}} for more details.}
+
+\item{...}{arguments to pass to \code{\link{linear_systematic}}.}
 }
 \value{
-A data frame fitted values supplied in \code{newdata} and associated
-simulated quantities of interest. The quantities of interest are in a column
-named \code{qi_}.
+If \code{slimmer = FALSE} data frame of fitted values supplied in
+\code{newdata} and associated simulated quantities of interest for all
+simulations in the central interval specified by \code{ci}. The quantities
+of interest are in a column named \code{qi_}.
 }
 \description{
 Find quantities of interest from generalized linear models
@@ -35,7 +41,7 @@ Find quantities of interest from generalized linear models
 \examples{
 library(car)
 
-# Normal linear model
+## Normal linear model
 m1 <- lm(prestige ~ education + type, data = Prestige)
 # Simulate coefficients
 m1_sims <- b_sim(m1)
@@ -45,7 +51,7 @@ fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
 
 linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
 
-# Logistic regression
+## Logistic regression
 # Download data
 URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
 Admission <- read.csv(URL)
@@ -66,6 +72,9 @@ pr_function <- function(x) 1 / (1 + exp(x))
 
 # Find quantity of interest
 logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
+
+logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function,
+                         slim = TRUE)
 
 }
 

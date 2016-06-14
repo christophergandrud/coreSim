@@ -10,17 +10,22 @@
 #' @param model a function for calculating how to find the quantity of interest
 #' from a vector of the fitted linear systematic component.
 #' @param ci the proportion of the central interval of the simulations to
-#' return. Must be in [0, 1].
-#' @param ... arguments to pass to \code{\link{linear_systematic}}
+#' return. Must be in (0, 1].
+#' @param slim logical indicating whether to (if \code{FALSE}) return all
+#' simulations in the central interval specified by \code{ci} for each fitted
+#' scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
+#' See \code{\link{qi_slimmer}} for more details.
+#' @param ... arguments to pass to \code{\link{linear_systematic}}.
 #'
-#' @return A data frame fitted values supplied in \code{newdata} and associated
-#' simulated quantities of interest. The quantities of interest are in a column
-#' named \code{qi_}.
+#' @return If \code{slimmer = FALSE} data frame of fitted values supplied in
+#' \code{newdata} and associated simulated quantities of interest for all
+#' simulations in the central interval specified by \code{ci}. The quantities
+#' of interest are in a column named \code{qi_}.
 #'
 #' @examples
 #' library(car)
 #'
-#' # Normal linear model
+#' ## Normal linear model
 #' m1 <- lm(prestige ~ education + type, data = Prestige)
 #' # Simulate coefficients
 #' m1_sims <- b_sim(m1)
@@ -30,7 +35,7 @@
 #'
 #' linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
 #'
-#' # Logistic regression
+#' ## Logistic regression
 #' # Download data
 #' URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
 #' Admission <- read.csv(URL)
@@ -52,12 +57,15 @@
 #' # Find quantity of interest
 #' logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
 #'
+#' logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function,
+#'                          slim = TRUE)
+#'
 #' @importFrom stats quantile
 #' @importFrom dplyr bind_rows
 #'
 #' @export
 
-qi_builder <- function(b_sims, newdata, model, ci = 0.95, ...) {
+qi_builder <- function(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...) {
     qi_ <- NULL
     if (ci <= 0 | ci > 1) {
         stop("ci must be greater than 0 and not greater than 1.",
@@ -93,5 +101,8 @@ qi_builder <- function(b_sims, newdata, model, ci = 0.95, ...) {
         qi_df <- data.frame(bind_rows(qi_list))
         qi_df$scenario_ <- NULL
     }
+
+    if (slim) qi_df <- qi_slimmer(qi_df)
+
     return(qi_df)
 }

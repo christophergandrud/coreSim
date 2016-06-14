@@ -61,6 +61,9 @@ test_that('qi_builder output validity', {
     fitted_df <- expand.grid(education = 6:16, typewc = 1)
     linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
 
+    linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df,
+                                 slim = TRUE)
+
     # Predicted probabilities from logistic regression
     URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
     Admission <- read.csv(URL)
@@ -74,4 +77,26 @@ test_that('qi_builder output validity', {
 
     expect_is(linear_qi$qi_, 'numeric')
     expect_is(logistic_qi$qi_, 'numeric')
+    expect_equal(nrow(linear_qi_slim), 11)
+    expect_equal(names(linear_qi_slim), c('education', 'typewc', 'qi_min',
+                                       'qi_median', 'qi_max'))
+})
+
+# Test qi_slimmer --------------------------------------------------------------
+test_that('qi_slimmer output validity', {
+    set.seed(100)
+
+    # Linear model
+    data('Prestige', package = 'car')
+    m1 <- lm(prestige ~ education + type, data = Prestige)
+    m1_sims <- b_sim(m1)
+
+    fitted_df <- expand.grid(education = 6:16, typewc = 1)
+    linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
+
+    linear_slim <- qi_slimmer(linear_qi)
+
+    expect_equal(nrow(linear_slim), 11)
+    expect_equal(names(linear_slim), c('education', 'typewc', 'qi_min',
+                                       'qi_median', 'qi_max'))
 })

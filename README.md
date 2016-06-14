@@ -1,6 +1,7 @@
 ![coreSim logo](img/coreSim_logo.png)
 
 Version: 0.1.0 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
+[![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
 
 > Core functionality for simulating quantities of interest from generalised linear 
 models.
@@ -57,12 +58,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 20.76379
-## 2         6      1 21.95514
-## 3         6      1 19.28793
-## 4         6      1 26.26444
-## 5         6      1 23.68727
-## 6         6      1 20.45507
+## 1         6      1 23.22372
+## 2         6      1 17.62599
+## 3         6      1 20.12814
+## 4         6      1 20.11652
+## 5         6      1 22.98634
+## 6         6      1 20.72517
 ```
 
 ## Example: Predicted probabilities from logistic regressions
@@ -110,12 +111,12 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4       qi_
-## 1 220   2     1 0.4819262
-## 2 220   2     1 0.2973413
-## 3 220   2     1 0.4312091
-## 4 220   2     1 0.4279536
-## 5 220   2     1 0.2125770
-## 6 220   2     1 0.1764510
+## 1 220   2     1 0.4383880
+## 2 220   2     1 0.1543406
+## 3 220   2     1 0.4574971
+## 4 220   2     1 0.3444418
+## 5 220   2     1 0.4567622
+## 6 220   2     1 0.4274553
 ```
 
 
