@@ -78,7 +78,7 @@ test_that('qi_builder output validity', {
     m2_sims <- b_sim(m2)
     m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
                              rank4 = 1)
-    pr_function <- function(x) 1 / (1 + exp(x))
+    pr_function <- function(x) 1 / (1 + exp(-x))
     logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
 
     expect_is(linear_qi$qi_, 'numeric')

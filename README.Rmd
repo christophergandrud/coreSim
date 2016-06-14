@@ -64,6 +64,18 @@ linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1,
 head(linear_qi_slim)
 ```
 
+The slimmed simulation data set can be efficiently plotted, for example using
+[ggplot2](http://docs.ggplot2.org/current/):
+
+```{r}
+library(ggplot2)
+theme_set(theme_bw())
+
+ggplot(linear_qi_slim, aes(education, qi_median)) +
+    geom_ribbon(aes(ymin = qi_min, ymax = qi_max), alpha = 0.3) +
+    geom_line()
+```
+
 ## Example: Predicted probabilities from logistic regressions
 
 By default `qi_builder` simply returns the linear systematic component, which 
@@ -78,7 +90,7 @@ For example, to find predicted probabilities from a logistic regression model
 create a function to turn the systematic component into the QI:
 
 ```{r}
-pr_fun <- function(x) 1 / (1 + exp(x))
+pr_fun <- function(x) 1 / (1 + exp(-x))
 ```
 
 Then supply it to `qi_builder`'s `model` argument:
@@ -96,14 +108,18 @@ m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
 m2_sims <- b_sim(m2)
 
 # Create fitted values
-m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
+m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
                          rank4 = 1)
 
 # Find quantity of interest
-logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun)
+logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun, slim = TRUE)
 
-head(logistic_qi)
-```
+# Plot
+ggplot(logistic_qi, aes(gre, qi_median, group = as.factor(gpa), 
+                        fill = as.factor(gpa))) +
+    geom_ribbon(aes(ymin = qi_min, ymax = qi_max), alpha = 0.3) +
+    geom_line(aes(colour = as.factor(gpa)))
+    ```
 
 
 
