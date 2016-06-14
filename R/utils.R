@@ -39,7 +39,7 @@
 #' @export
 
 qi_slimmer <- function(df){
-    qi_ <- NULL
+    qi_ <- scenario_ <- NULL
 
     if (!(names(df)[[ncol(df)]] == 'scenario_'))
         df$scenario_ <- interaction(df[, 1:(ncol(df)-1)], drop = TRUE)
