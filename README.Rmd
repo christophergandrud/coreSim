@@ -12,7 +12,7 @@ Using simulations to find quantities of interest and associated uncertainty
 can be an effective way of showing substantively meaningful results from 
 generalised linear models (GLM). 
 
-This R package provides core functions that can serve as the back bone to other
+This R package provides core functions that can serve as the backbone to other
 packages for finding and plotting simulated quantities of interest from GLMs.
 
 ## Steps
@@ -75,7 +75,8 @@ theme_set(theme_bw())
 
 ggplot(linear_qi_slim, aes(education, qi_median)) +
     geom_ribbon(aes(ymin = qi_min, ymax = qi_max), alpha = 0.3) +
-    geom_line()
+    geom_line() +
+    ylab('Prestige')
 ```
 
 ## Example: Predicted probabilities from logistic regressions

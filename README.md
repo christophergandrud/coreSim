@@ -12,7 +12,7 @@ Using simulations to find quantities of interest and associated uncertainty
 can be an effective way of showing substantively meaningful results from 
 generalised linear models (GLM). 
 
-This R package provides core functions that can serve as the back bone to other
+This R package provides core functions that can serve as the backbone to other
 packages for finding and plotting simulated quantities of interest from GLMs.
 
 ## Steps
@@ -58,12 +58,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 19.38142
-## 2         6      1 21.43892
-## 3         6      1 14.22089
-## 4         6      1 19.84769
-## 5         6      1 16.26149
-## 6         6      1 17.72238
+## 1         6      1 23.72009
+## 2         6      1 18.78262
+## 3         6      1 20.72840
+## 4         6      1 22.09607
+## 5         6      1 13.15539
+## 6         6      1 14.51539
 ```
 
 ### Slimmed simulation data
@@ -86,12 +86,12 @@ head(linear_qi_slim)
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 11.82625  19.14348 26.42974
-## 2         7      1 17.51546  23.67221 29.66748
-## 3         8      1 23.14490  28.24632 33.32998
-## 4         9      1 28.73605  32.88016 36.83529
-## 5        10      1 34.02702  37.50726 40.66255
-## 6        11      1 38.97920  41.99247 44.99295
+## 1         6      1 12.15064  19.16694 26.76069
+## 2         7      1 17.84503  23.71980 30.12726
+## 3         8      1 23.39278  28.34454 33.59529
+## 4         9      1 28.84553  32.96956 37.04962
+## 5        10      1 34.01164  37.55099 41.15894
+## 6        11      1 38.83801  42.12270 45.40941
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -104,7 +104,8 @@ theme_set(theme_bw())
 
 ggplot(linear_qi_slim, aes(education, qi_median)) +
     geom_ribbon(aes(ymin = qi_min, ymax = qi_max), alpha = 0.3) +
-    geom_line()
+    geom_line() +
+    ylab('Prestige')
 ```
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
@@ -154,12 +155,12 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4      qi_min  qi_median     qi_max
-## 1 220   1     1 0.002647372 0.01416992 0.07067504
-## 2 230   1     1 0.002749511 0.01442622 0.07066225
-## 3 240   1     1 0.002823564 0.01469663 0.07222144
-## 4 250   1     1 0.002892476 0.01497890 0.07381229
-## 5 260   1     1 0.002928574 0.01529569 0.07543535
-## 6 270   1     1 0.002999106 0.01561182 0.07709112
+## 1 220   1     1 0.002783753 0.01441787 0.06931141
+## 2 230   1     1 0.002893225 0.01484138 0.06995180
+## 3 240   1     1 0.002984259 0.01525987 0.07059767
+## 4 250   1     1 0.003033161 0.01565690 0.07161055
+## 5 260   1     1 0.003122336 0.01605837 0.07303662
+## 6 270   1     1 0.003214124 0.01645415 0.07437871
 ```
 
 
