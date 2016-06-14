@@ -6,6 +6,8 @@
 #' @param newdata a data frame of fitted values with column names corresponding
 #' to variable names in \code{b_sims}. Variables in \code{b_sim} not present
 #' in \code{newdata} will be treated as fitted at 0.
+#' @param inc_intercept logical whether to include the intercept in the
+#' lineary systematic component.
 #'
 #' @return A data frame fitted values supplied in \code{newdata} and associated
 #' linear systematic component estimates for all simulationed coefficient
@@ -35,13 +37,10 @@
 #'
 #' @export
 
-linear_systematic <- function(b_sims, newdata) {
-    inc_intercept <- NULL
-
+linear_systematic <- function(b_sims, newdata, inc_intercept = TRUE) {
     fitted_names <- names(newdata)
 
-    if (('intercept_' %in% fitted_names)) inc_intercept <- TRUE
-    else inc_intercept <- FALSE
+    if (!('intercept_' %in% names(b_sims))) inc_intercept <- FALSE
 
     if (!all(fitted_names %in% names(b_sims)))
         stop('Unable to find all of the variables from newdata in b_sims.',

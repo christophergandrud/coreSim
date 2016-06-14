@@ -4,7 +4,7 @@
 \alias{qi_builder}
 \title{Find quantities of interest from generalized linear models}
 \usage{
-qi_builder(b_sims, newdata, model, ci = 0.95, slim = FALSE)
+qi_builder(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...)
 }
 \arguments{
 \item{b_sims}{a data frame created by \code{\link{b_sim}} of simulated
@@ -26,6 +26,8 @@ return. Must be in (0, 1].}
 simulations in the central interval specified by \code{ci} for each fitted
 scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
 See \code{\link{qi_slimmer}} for more details.}
+
+\item{...}{arguments to pass to \code{\link{linear_systematic}}.}
 }
 \value{
 If \code{slimmer = FALSE} data frame of fitted values supplied in

@@ -33,6 +33,9 @@ test_that('linear_systematic output validity', {
 
     fitted_df <- expand.grid(education = 6:16, typewc = 1)
     ls_lm <- linear_systematic(b_sims = m1_sims, newdata = fitted_df)
+    ls_lm_no_intercept <- linear_systematic(b_sims = m1_sims,
+                                            newdata = fitted_df,
+                                            inc_intercept = FALSE)
 
     # Survival model (no intercept term)
     library(survival)
@@ -46,6 +49,7 @@ test_that('linear_systematic output validity', {
     ls_coxph <- linear_systematic(sim_coxph, newdata = data.frame(x = 1))
 
     expect_is(ls_lm$ls_, 'numeric')
+    expect_true(mean(ls_lm$ls_) < mean(ls_lm_no_intercept$ls_))
     expect_is(ls_coxph$ls_, 'numeric')
 })
 
@@ -60,6 +64,8 @@ test_that('qi_builder output validity', {
 
     fitted_df <- expand.grid(education = 6:16, typewc = 1)
     linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
+
+    linear_qi_c1 <- qi_builder(b_sims = m1_sims, newdata = fitted_df, ci = 1)
 
     linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df,
                                  slim = TRUE)
@@ -77,6 +83,7 @@ test_that('qi_builder output validity', {
 
     expect_is(linear_qi$qi_, 'numeric')
     expect_is(logistic_qi$qi_, 'numeric')
+    expect_equal(nrow(linear_qi_c1), 11000)
     expect_equal(nrow(linear_qi_slim), 11)
     expect_equal(names(linear_qi_slim), c('education', 'typewc', 'qi_min',
                                        'qi_median', 'qi_max'))
