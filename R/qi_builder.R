@@ -15,7 +15,6 @@
 #' simulations in the central interval specified by \code{ci} for each fitted
 #' scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
 #' See \code{\link{qi_slimmer}} for more details.
-#' @param ... arguments to pass to \code{\link{linear_systematic}}.
 #'
 #' @return If \code{slimmer = FALSE} data frame of fitted values supplied in
 #' \code{newdata} and associated simulated quantities of interest for all
@@ -65,14 +64,14 @@
 #'
 #' @export
 
-qi_builder <- function(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...) {
+qi_builder <- function(b_sims, newdata, model, ci = 0.95, slim = FALSE) {
     qi_ <- NULL
     if (ci <= 0 | ci > 1) {
         stop("ci must be greater than 0 and not greater than 1.",
              call. = FALSE)
     }
 
-    qi_df <- linear_systematic(b_sims = b_sims, newdata = newdata, ...)
+    qi_df <- linear_systematic(b_sims = b_sims, newdata = newdata)
 
     if (missing(model)) {
         message('Note: model argument missing -> assuming normal linear model.\n')

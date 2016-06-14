@@ -10,7 +10,7 @@ Most of Statistical Analyses: Improving Interpretation and Presentation."
 American Journal of Political Science 44(2): 341-55.
 }
 \usage{
-linear_systematic(b_sims, newdata, inc_intercept = TRUE)
+linear_systematic(b_sims, newdata)
 }
 \arguments{
 \item{b_sims}{a data frame created by \code{\link{b_sim}} of simulated
@@ -19,9 +19,6 @@ coefficients}
 \item{newdata}{a data frame of fitted values with column names corresponding
 to variable names in \code{b_sims}. Variables in \code{b_sim} not present
 in \code{newdata} will be treated as fitted at 0.}
-
-\item{inc_intercept}{logical whether to include the intercept in the
-lineary systematic component.}
 }
 \value{
 A data frame fitted values supplied in \code{newdata} and associated
