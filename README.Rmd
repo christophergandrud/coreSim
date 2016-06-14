@@ -113,13 +113,7 @@ m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
 
 # Find quantity of interest
 logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun, slim = TRUE)
-
-# Plot
-ggplot(logistic_qi, aes(gre, qi_median, group = as.factor(gpa), 
-                        fill = as.factor(gpa))) +
-    geom_ribbon(aes(ymin = qi_min, ymax = qi_max), alpha = 0.3) +
-    geom_line(aes(colour = as.factor(gpa)))
-    ```
+```
 
 
 

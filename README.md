@@ -58,12 +58,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 15.01922
-## 2         6      1 13.03569
-## 3         6      1 17.81771
-## 4         6      1 20.71603
-## 5         6      1 20.61464
-## 6         6      1 18.23198
+## 1         6      1 19.16991
+## 2         6      1 23.26034
+## 3         6      1 22.49117
+## 4         6      1 19.48314
+## 5         6      1 17.05639
+## 6         6      1 17.17741
 ```
 
 By default `qi_builder` will return all of the simulations inside the central 
@@ -90,12 +90,12 @@ head(linear_qi_slim)
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 11.65448  19.05750 26.02128
-## 2         7      1 17.46071  23.66109 29.54267
-## 3         8      1 23.16987  28.31032 33.16030
-## 4         9      1 28.79834  32.90168 37.01256
-## 5        10      1 34.10862  37.52265 41.03652
-## 6        11      1 38.93380  42.12905 45.28592
+## 1         6      1 12.03153  19.28303 26.55257
+## 2         7      1 17.87690  23.80418 30.09274
+## 3         8      1 23.46165  28.44959 33.50827
+## 4         9      1 28.92824  32.96829 37.40324
+## 5        10      1 34.11213  37.47715 41.18952
+## 6        11      1 38.98086  42.10606 45.41850
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -128,7 +128,7 @@ create a function to turn the systematic component into the QI:
 
 
 ```r
-pr_fun <- function(x) 1 / (1 + exp(x))
+pr_fun <- function(x) 1 / (1 + exp(-x))
 ```
 
 Then supply it to `qi_builder`'s `model` argument:
@@ -147,23 +147,11 @@ m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
 m2_sims <- b_sim(m2)
 
 # Create fitted values
-m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
+m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
                          rank4 = 1)
 
 # Find quantity of interest
-logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun)
-
-head(logistic_qi)
-```
-
-```
-##   gre gpa rank4       qi_
-## 1 220   2     1 0.9649347
-## 2 220   2     1 0.9881076
-## 3 220   2     1 0.9637987
-## 4 220   2     1 0.9761772
-## 5 220   2     1 0.9753611
-## 6 220   2     1 0.9571597
+logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun, slim = TRUE)
 ```
 
 
