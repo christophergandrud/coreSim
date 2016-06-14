@@ -99,7 +99,7 @@ qi_builder <- function(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...) {
         })
 
         qi_df <- data.frame(bind_rows(qi_list))
-        qi_df$scenario_ <- NULL
+        if (!isTRUE(slim)) qi_df$scenario_ <- NULL
     }
 
     if (slim) qi_df <- qi_slimmer(qi_df)

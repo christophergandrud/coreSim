@@ -39,9 +39,10 @@
 #' @export
 
 qi_slimmer <- function(df){
-    qi_ <- scenario_ <- NULL
+    qi_ <- NULL
 
-    df$scenario_ <- interaction(df[, 1:(ncol(df)-1)], drop = TRUE)
+    if (!(names(df)[[ncol(df)]] == 'scenario_'))
+        df$scenario_ <- interaction(df[, 1:(ncol(df)-1)], drop = TRUE)
 
     df_out <- df %>% group_by(scenario_) %>%
         summarise(qi_min = min(qi_),
@@ -50,7 +51,7 @@ qi_slimmer <- function(df){
                   ) %>%
         data.frame
 
-    scenarios_df <- unique(df[, 1:(ncol(df)-2)]) %>%
+    scenarios_df <- df[!duplicated(df$scenario_), 1:(ncol(df)-2)] %>%
         data.frame(row.names = NULL)
     df_out <- cbind(scenarios_df, df_out)
     df_out$scenario_ <- NULL

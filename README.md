@@ -58,12 +58,44 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 23.22372
-## 2         6      1 17.62599
-## 3         6      1 20.12814
-## 4         6      1 20.11652
-## 5         6      1 22.98634
-## 6         6      1 20.72517
+## 1         6      1 21.48967
+## 2         6      1 19.43595
+## 3         6      1 15.61432
+## 4         6      1 17.87620
+## 5         6      1 23.82249
+## 6         6      1 20.56564
+```
+
+By default `qi_builder` will return all of the simulations inside the central 
+interval of the simulations for each scenario that you specify with the `ci` 
+argument (this is `0.95` by default for 95% central interval). 
+
+However, you may want to only return key features of this interval so that they
+can be efficiently stored and plotted. Using `slim = TRUE` will return only the
+minimun, median, and maximum values of the central interval for each scenario:
+
+
+```r
+linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1, 
+                             slim = TRUE)
+```
+
+```
+## Note: model argument missing -> assuming normal linear model.
+```
+
+```r
+head(linear_qi_slim)
+```
+
+```
+##   education typewc   qi_min qi_median   qi_max
+## 1         6      1 11.88443  19.44891 26.62517
+## 2         7      1 17.55108  24.07346 30.10250
+## 3         8      1 23.23819  28.58527 33.45301
+## 4         9      1 28.87185  33.11987 37.03752
+## 5        10      1 34.17670  37.66775 41.02235
+## 6        11      1 39.07099  42.22767 45.45236
 ```
 
 ## Example: Predicted probabilities from logistic regressions
@@ -111,12 +143,12 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4       qi_
-## 1 220   2     1 0.4383880
-## 2 220   2     1 0.1543406
-## 3 220   2     1 0.4574971
-## 4 220   2     1 0.3444418
-## 5 220   2     1 0.4567622
-## 6 220   2     1 0.4274553
+## 1 220   2     1 0.9330231
+## 2 220   2     1 0.9869427
+## 3 220   2     1 0.9634030
+## 4 220   2     1 0.9869240
+## 5 220   2     1 0.9739703
+## 6 220   2     1 0.9748055
 ```
 
 
