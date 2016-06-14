@@ -112,17 +112,29 @@ test_that('qi_slimmer output validity', {
 # Test interaction_builder -----------------------------------------------------
 test_that('interaction_builder output validity', {
     states <- as.data.frame(state.x77)
+    states$in.come <- states$Income
     m1 <- lm(Murder ~ Income * Population, data = states)
-    b_sims <- b_sim(m1)
+    b_sims_1 <- b_sim(m1)
 
-    fitted_df_1 <- expand.grid(Income = unique(states$Income), Population = 4246)
+    m2 <- lm(Murder ~ in.come * Population, data = states)
+    b_sims_2 <- b_sim(m2)
+
+    fitted_df_1 <- expand.grid(Income = unique(states$Income),
+                               Population = 4246)
+
     fitted_df_2 <- fitted_df_1
     fitted_df_2$Income.Population <- fitted_df_2$Income * fitted_df_2$Population
 
-    inter_df_1 <- coreSim:::interaction_builder(b_sims, fitted_df_1)
-    inter_df_2 <- coreSim:::interaction_builder(b_sims, fitted_df_2)
+    fitted_df_3 <- expand.grid(in.come = unique(states$in.come),
+                               Population = 4246)
+
+    inter_df_1 <- coreSim:::interaction_builder(b_sims_1, fitted_df_1)
+    inter_df_2 <- coreSim:::interaction_builder(b_sims_1, fitted_df_2)
+    inter_df_3 <- coreSim:::interaction_builder(b_sims = b_sims_2,
+                                                newdata = fitted_df_3)
 
     expect_equal(inter_df_1$Income * inter_df_1$Population,
                  inter_df_1$Income.Population)
     expect_equal(inter_df_1$Income.Population, inter_df_2$Income.Population)
+    expect_equal(inter_df_1$Income.Population, inter_df_3$in.come.Population)
 })

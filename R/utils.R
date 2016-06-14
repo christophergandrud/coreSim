@@ -71,14 +71,30 @@ interaction_builder <- function(b_sims, newdata) {
 
     if (length(interactions) != 0) {
         for (i in interactions) {
-            if (!(all(grepl(i, fitted_names)))) {
-                parts_temp <- unlist(strsplit(i, '\\.'))
-                if (all(parts_temp %in% fitted_names)) {
-                    newdata[, i] <- newdata[[parts_temp[[1]]]] *
-                        newdata[[parts_temp[[2]]]]
+            if (length(intersect(i, fitted_names)) == 0) {
+                sub_df <- data.frame()
+                for (u in fitted_names) {
+                    if (grepl(u, i))
+                        sub_df <- cbind_fill(sub_df, u = newdata[[u]])
                 }
+                newdata[, i] <- apply(sub_df, 1, prod)
             }
         }
     }
     return(newdata)
+}
+
+
+#' Bind column to empty data.frame
+#'
+#' @source http://stackoverflow.com/a/26685092/1705044
+#'
+#' @noRd
+
+cbind_fill <- function(...){
+    nm <- list(...)
+    nm <- lapply(nm, as.matrix)
+    n <- max(sapply(nm, nrow))
+    do.call(cbind, lapply(nm, function (x)
+        rbind(x, matrix(, n-nrow(x), ncol(x)))))
 }
