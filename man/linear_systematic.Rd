@@ -18,7 +18,9 @@ coefficients}
 
 \item{newdata}{a data frame of fitted values with column names corresponding
 to variable names in \code{b_sims}. Variables in \code{b_sim} not present
-in \code{newdata} will be treated as fitted at 0.}
+in \code{newdata} will be treated as fitted at 0. Interactions will
+automatically be found if they were entered into to the model using the
+\code{*} operator.}
 
 \item{inc_intercept}{logical whether to include the intercept in the
 lineary systematic component.}

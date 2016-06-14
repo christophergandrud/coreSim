@@ -5,7 +5,9 @@
 #' coefficients
 #' @param newdata a data frame of fitted values with column names corresponding
 #' to variable names in \code{b_sims}. Variables in \code{b_sim} not present
-#' in \code{newdata} will be treated as fitted at 0.
+#' in \code{newdata} will be treated as fitted at 0. Interactions will
+#' automatically be found if they were entered into to the model using the
+#' \code{*} operator.
 #' @param inc_intercept logical whether to include the intercept in the
 #' lineary systematic component.
 #'
@@ -49,6 +51,9 @@ linear_systematic <- function(b_sims, newdata, inc_intercept = TRUE) {
     if (!all(sapply(newdata, class) %in% c('numeric', 'integer')))
         stop('All fitted values must be either numeric or integer.',
             call. = FALSE)
+
+    newdata <- interaction_builder(b_sims = b_sims, newdata = newdata)
+    fitted_names <- names(newdata)
 
     intercept <- b_sims[['intercept_']]
     not_fitted_0 <- data.matrix(b_sims[, fitted_names])
