@@ -3,19 +3,38 @@
 Version: 0.1.0 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 [![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
 
-> Core functionality for simulating quantities of interest from generalised linear 
-models.
+> Core functionality for simulating quantities of interest from generalised 
+linear models.
 
-## Purpose
+# Purpose
 
 Using simulations to find quantities of interest and associated uncertainty
 can be an effective way of showing substantively meaningful results from 
 generalised linear models (GLM). 
 
-This R package provides core functions that can serve as the backbone to other
+This R package provides core functions that can serve as the **backbone** to other
 packages for finding and plotting simulated quantities of interest from GLMs.
 
-## Steps
+# Motivation
+
+**coreSim** aims to solve a number of issues that arose in prior implementations of 
+the simulation approach to showing GLM results. The main previous implementation in R is the **Zelig** package. This package has tried to be "Everyone's statistical software". However, paradoxically, its attempt to be everything to everyone has led to less flexibility for new use cases. Maintaining such a large project over time has led to (in my experience) frequent code breaks. The Zelig 'API' has changed considerably over time in often undocumented ways. Changes to its many dependencies also undermines its reliability. 
+
+**coreSim** aims to overcome these issue with a focus on *simplicity*. It tries to:
+
+- Do a few things really well.
+
+- Have as few dependencies as possible. Only import packages if they make significant performance improvements over what is available in base R.
+
+- Return simple `data.frame` output. 
+
+- Have informative error messages that are easy for users to understand.
+
+Additionally, **coreSim** is aiming for very high reliability. Simplicity helps with this, so does aiming for 100% code test coverage.
+
+These characteristics allow **coreSim** to form the backbone of many specific and unanticipated implementations of the simulation approach. 
+
+# Steps
 
 1. Estimate your model using whatever GLM model fitting function you like 
 (note: I've only tested `lm`, `glm`, and `survival`).
@@ -27,7 +46,9 @@ packages for finding and plotting simulated quantities of interest from GLMs.
 4. Present your results, e.g. by plotting the simulated quantities of 
 interest.
 
-## Example: Normal linear model 
+# Examples
+
+# Normal linear model 
 
 Here is an example using data from the **car** package:
 
@@ -58,12 +79,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 23.72009
-## 2         6      1 18.78262
-## 3         6      1 20.72840
-## 4         6      1 22.09607
-## 5         6      1 13.15539
-## 6         6      1 14.51539
+## 1         6      1 23.86142
+## 2         6      1 26.01271
+## 3         6      1 16.30275
+## 4         6      1 22.00607
+## 5         6      1 14.49881
+## 6         6      1 21.45767
 ```
 
 ### Slimmed simulation data
@@ -86,12 +107,12 @@ head(linear_qi_slim)
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 12.15064  19.16694 26.76069
-## 2         7      1 17.84503  23.71980 30.12726
-## 3         8      1 23.39278  28.34454 33.59529
-## 4         9      1 28.84553  32.96956 37.04962
-## 5        10      1 34.01164  37.55099 41.15894
-## 6        11      1 38.83801  42.12270 45.40941
+## 1         6      1 11.11931  19.61080 26.63241
+## 2         7      1 16.93065  24.12030 29.98785
+## 3         8      1 22.80573  28.64483 33.37335
+## 4         9      1 28.62670  33.15211 37.13480
+## 5        10      1 34.13727  37.67678 40.87820
+## 6        11      1 38.93051  42.22595 45.18545
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -110,7 +131,7 @@ ggplot(linear_qi_slim, aes(education, qi_median)) +
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
-## Example: Predicted probabilities from logistic regressions
+# Predicted probabilities from logistic regressions
 
 By default `qi_builder` simply returns the linear systematic component, which 
 in normal linear regression is simply the predicted y, i.e. 
@@ -155,17 +176,17 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4      qi_min  qi_median     qi_max
-## 1 220   1     1 0.002783753 0.01441787 0.06931141
-## 2 230   1     1 0.002893225 0.01484138 0.06995180
-## 3 240   1     1 0.002984259 0.01525987 0.07059767
-## 4 250   1     1 0.003033161 0.01565690 0.07161055
-## 5 260   1     1 0.003122336 0.01605837 0.07303662
-## 6 270   1     1 0.003214124 0.01645415 0.07437871
+## 1 220   1     1 0.003097302 0.01351713 0.06043906
+## 2 230   1     1 0.003161466 0.01376257 0.06145524
+## 3 240   1     1 0.003226954 0.01416744 0.06248736
+## 4 250   1     1 0.003293795 0.01453725 0.06400426
+## 5 260   1     1 0.003381964 0.01481381 0.06618450
+## 6 270   1     1 0.003460525 0.01513022 0.06771301
 ```
 
 
 
-## See also
+# See also
 
 Christopher Gandrud (2015). simPH: An R Package for Illustrating Estimates from
 Cox Proportional Hazard Models Including for Interactive and Nonlinear Effects.
