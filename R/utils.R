@@ -176,5 +176,18 @@ FUN_check <- function(x) {
     if (!is.function(x))
         stop('FUN must be a function.', call. = FALSE)
     if (length(formals(x)) != 1)
-        stop('FUN can only have one argument.\nThis argument must accept only a numeric vector of the fitted linear component calculated from the simulations.', call. = FALSE)
+        stop('FUN can only have one argument.\nThis argument must accept only a numeric vector of the fitted linear component calculated from the simulations.',
+             call. = FALSE)
 }
+
+#' Check results from user supplied function
+#'
+#' @noRd
+
+FUN_results_check <- function(x) {
+    if (!is.vector(x))
+        stop('FUN did not return a vector.', call. = FALSE)
+    if (!is.numeric(x))
+        stop('FUN returned a non-numeric vector.', call. = FALSE)
+}
+

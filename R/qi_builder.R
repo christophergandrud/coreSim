@@ -8,7 +8,8 @@
 #' (e.g. the fitted linear systematic component from
 #' \code{\link{linear_systematic}}).
 #' @param FUN a function for calculating how to find the quantity of interest
-#' from a vector of the fitted linear systematic component.
+#' from a vector of the fitted linear systematic component. It must return
+#' a numeric vector.
 #' @param ci the proportion of the central interval of the simulations to
 #' return. Must be in (0, 1] or equivalently (0, 100].
 #' @param slim logical indicating whether to (if \code{FALSE}) return all
@@ -84,7 +85,11 @@ qi_builder <- function(b_sims, newdata, FUN, ci = 0.95, slim = FALSE, ...) {
     else {
         FUN_check(FUN)
 
-        qi_df[, 'qi_'] <- FUN(qi_df[['ls_']])
+        temp_qi <- FUN(qi_df[['ls_']])
+
+        FUN_results_check(temp_qi)
+
+        qi_df[, 'qi_'] <- temp_qi
         qi_df['ls_'] <- NULL
     }
 

@@ -17,7 +17,8 @@ linear regression model is assumed and the predicted values are returned
 \code{\link{linear_systematic}}).}
 
 \item{FUN}{a function for calculating how to find the quantity of interest
-from a vector of the fitted linear systematic component.}
+from a vector of the fitted linear systematic component. It must return
+a numeric vector.}
 
 \item{ci}{the proportion of the central interval of the simulations to
 return. Must be in (0, 1] or equivalently (0, 100].}

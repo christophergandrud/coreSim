@@ -89,6 +89,8 @@ test_that('qi_builder output validity', {
                                        'qi_median', 'qi_max'))
     expect_error(qi_builder(m2_sims, m2_fitted, FUN = pr_function, ci = 950))
     expect_error(qi_builder(m2_sims, m2_fitted, FUN = function(x, y){x + y}))
+    expect_error(qi_builder(m2_sims, m2_fitted, FUN = function(x){x <- 'a'}))
+    expect_error(qi_builder(m2_sims, m2_fitted, FUN = function(x){x <- data.frame()}))
     expect_error(qi_builder(m2_sims, m2_fitted, FUN = 'test_fail'))
 
 })
