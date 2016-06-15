@@ -167,3 +167,14 @@ ci_check <- function(x) {
     }
     return(x)
 }
+
+#' Check the user supplied QI function for consistency
+#'
+#' @noRd
+
+FUN_check <- function(x) {
+    if (!is.function(x))
+        stop('FUN must be a function.', call. = FALSE)
+    if (length(formals(x)) != 1)
+        stop('FUN can only have one argument.\nThis argument must accept only a numeric vector of the fitted linear component calculated from the simulations.', call. = FALSE)
+}

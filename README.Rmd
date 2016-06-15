@@ -117,7 +117,7 @@ create a function to turn the systematic component into the QI:
 pr_fun <- function(x) 1 / (1 + exp(-x))
 ```
 
-Then supply it to `qi_builder`'s `model` argument:
+Then supply the custom function to `qi_builder`'s `FUN` argument:
 
 ```{r}
 # Download data
@@ -136,7 +136,7 @@ m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
                          rank4 = 1)
 
 # Find quantity of interest
-logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun, slim = TRUE)
+logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_fun, slim = TRUE)
 
 head(logistic_qi)
 ```

@@ -79,7 +79,7 @@ test_that('qi_builder output validity', {
     m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
                              rank4 = 1)
     pr_function <- function(x) 1 / (1 + exp(-x))
-    logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
+    logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function)
 
     expect_is(linear_qi$qi_, 'numeric')
     expect_is(logistic_qi$qi_, 'numeric')
@@ -87,7 +87,10 @@ test_that('qi_builder output validity', {
     expect_equal(nrow(linear_qi_slim), 11)
     expect_equal(names(linear_qi_slim), c('education', 'typewc', 'qi_min',
                                        'qi_median', 'qi_max'))
-    expect_error(qi_builder(m2_sims, m2_fitted, model = pr_function, ci = 950))
+    expect_error(qi_builder(m2_sims, m2_fitted, FUN = pr_function, ci = 950))
+    expect_error(qi_builder(m2_sims, m2_fitted, FUN = function(x, y){x + y}))
+    expect_error(qi_builder(m2_sims, m2_fitted, FUN = 'test_fail'))
+
 })
 
 # Test qi_slimmer --------------------------------------------------------------

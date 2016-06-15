@@ -4,7 +4,7 @@
 \alias{qi_builder}
 \title{Find quantities of interest from generalized linear models}
 \usage{
-qi_builder(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...)
+qi_builder(b_sims, newdata, FUN, ci = 0.95, slim = FALSE, ...)
 }
 \arguments{
 \item{b_sims}{a data frame created by \code{\link{b_sim}} of simulated
@@ -16,7 +16,7 @@ linear regression model is assumed and the predicted values are returned
 (e.g. the fitted linear systematic component from
 \code{\link{linear_systematic}}).}
 
-\item{model}{a function for calculating how to find the quantity of interest
+\item{FUN}{a function for calculating how to find the quantity of interest
 from a vector of the fitted linear systematic component.}
 
 \item{ci}{the proportion of the central interval of the simulations to
@@ -77,9 +77,9 @@ m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
 pr_function <- function(x) 1 / (1 + exp(-x))
 
 # Find quantity of interest
-logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
+logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function)
 
-logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function,
+logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function,
                          slim = TRUE)
 
 }

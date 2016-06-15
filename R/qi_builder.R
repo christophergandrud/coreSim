@@ -7,7 +7,7 @@
 #' linear regression model is assumed and the predicted values are returned
 #' (e.g. the fitted linear systematic component from
 #' \code{\link{linear_systematic}}).
-#' @param model a function for calculating how to find the quantity of interest
+#' @param FUN a function for calculating how to find the quantity of interest
 #' from a vector of the fitted linear systematic component.
 #' @param ci the proportion of the central interval of the simulations to
 #' return. Must be in (0, 1] or equivalently (0, 100].
@@ -61,9 +61,9 @@
 #' pr_function <- function(x) 1 / (1 + exp(-x))
 #'
 #' # Find quantity of interest
-#' logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function)
+#' logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function)
 #'
-#' logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_function,
+#' logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function,
 #'                          slim = TRUE)
 #'
 #' @importFrom stats quantile
@@ -71,20 +71,20 @@
 #'
 #' @export
 
-qi_builder <- function(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...) {
+qi_builder <- function(b_sims, newdata, FUN, ci = 0.95, slim = FALSE, ...) {
     qi_ <- NULL
     ci <- ci_check(ci)
 
     qi_df <- linear_systematic(b_sims = b_sims, newdata = newdata, ...)
 
-    if (missing(model)) {
-        message('Note: model argument missing -> assuming normal linear model.\n')
+    if (missing(FUN)) {
+        message('Note: FUN argument missing -> assuming b_sims is from a normal linear model.\n')
         names(qi_df)[grep('ls_', names(qi_df))] <- 'qi_'
     }
     else {
-        if (!is.function(model)) stop('model must be a function.',
-            call. = FALSE)
-        qi_df[, 'qi_'] <- model(qi_df[['ls_']])
+        FUN_check(FUN)
+
+        qi_df[, 'qi_'] <- FUN(qi_df[['ls_']])
         qi_df['ls_'] <- NULL
     }
 

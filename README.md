@@ -48,7 +48,7 @@ interest.
 
 # Examples
 
-# Normal linear model 
+## Normal linear model 
 
 Here is an example using data from the **car** package:
 
@@ -70,7 +70,7 @@ linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
 ```
 
 ```
-## Note: model argument missing -> assuming normal linear model.
+## Note: FUN argument missing -> assuming b_sims is from a normal linear model.
 ```
 
 ```r
@@ -79,12 +79,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 23.86142
-## 2         6      1 26.01271
-## 3         6      1 16.30275
-## 4         6      1 22.00607
-## 5         6      1 14.49881
-## 6         6      1 21.45767
+## 1         6      1 15.56093
+## 2         6      1 24.59888
+## 3         6      1 14.62604
+## 4         6      1 25.05122
+## 5         6      1 20.38014
+## 6         6      1 21.54174
 ```
 
 ### Slimmed simulation data
@@ -107,12 +107,12 @@ head(linear_qi_slim)
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 11.11931  19.61080 26.63241
-## 2         7      1 16.93065  24.12030 29.98785
-## 3         8      1 22.80573  28.64483 33.37335
-## 4         9      1 28.62670  33.15211 37.13480
-## 5        10      1 34.13727  37.67678 40.87820
-## 6        11      1 38.93051  42.22595 45.18545
+## 1         6      1 11.75934  19.14915 26.38990
+## 2         7      1 17.22595  23.79351 30.04276
+## 3         8      1 22.90708  28.35126 33.70815
+## 4         9      1 28.58959  32.92120 37.31051
+## 5        10      1 33.74395  37.51279 41.14294
+## 6        11      1 38.76235  42.06075 45.32449
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -131,7 +131,7 @@ ggplot(linear_qi_slim, aes(education, qi_median)) +
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
-# Predicted probabilities from logistic regressions
+## Predicted probabilities from logistic regressions
 
 By default `qi_builder` simply returns the linear systematic component, which 
 in normal linear regression is simply the predicted y, i.e. 
@@ -149,7 +149,7 @@ create a function to turn the systematic component into the QI:
 pr_fun <- function(x) 1 / (1 + exp(-x))
 ```
 
-Then supply it to `qi_builder`'s `model` argument:
+Then supply the custom function to `qi_builder`'s `FUN` argument:
 
 
 ```r
@@ -169,19 +169,19 @@ m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
                          rank4 = 1)
 
 # Find quantity of interest
-logistic_qi <- qi_builder(m2_sims, m2_fitted, model = pr_fun, slim = TRUE)
+logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_fun, slim = TRUE)
 
 head(logistic_qi)
 ```
 
 ```
 ##   gre gpa rank4      qi_min  qi_median     qi_max
-## 1 220   1     1 0.003097302 0.01351713 0.06043906
-## 2 230   1     1 0.003161466 0.01376257 0.06145524
-## 3 240   1     1 0.003226954 0.01416744 0.06248736
-## 4 250   1     1 0.003293795 0.01453725 0.06400426
-## 5 260   1     1 0.003381964 0.01481381 0.06618450
-## 6 270   1     1 0.003460525 0.01513022 0.06771301
+## 1 220   1     1 0.002870557 0.01438024 0.06935748
+## 2 230   1     1 0.002936545 0.01478719 0.07023445
+## 3 240   1     1 0.003006423 0.01508441 0.07101807
+## 4 250   1     1 0.003096031 0.01539632 0.07180976
+## 5 260   1     1 0.003188301 0.01577398 0.07260958
+## 6 270   1     1 0.003299854 0.01610704 0.07341760
 ```
 
 
