@@ -48,7 +48,7 @@ interest.
 
 # Examples
 
-# Normal linear model 
+## Normal linear model 
 
 Here is an example using data from the **car** package:
 
@@ -100,7 +100,7 @@ ggplot(linear_qi_slim, aes(education, qi_median)) +
     ylab('Prestige')
 ```
 
-# Predicted probabilities from logistic regressions
+## Predicted probabilities from logistic regressions
 
 By default `qi_builder` simply returns the linear systematic component, which 
 in normal linear regression is simply the predicted y, i.e. 
