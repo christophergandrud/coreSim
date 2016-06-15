@@ -148,6 +148,13 @@ test_that('interaction_builder output validity', {
                                       'Population.Frost',
                                       'in.come.Population.Frost'))
     expect_equal(ncol(inter_systematic), 5)
+
+
+    fake_names <- c('a', 'b', 'c', 'd', 'e')
+    interaction_5 <- coreSim:::possible_interaction_terms(fake_names, n = 5)
+
+    expect_equal(length(interaction_5), 120)
+    expect_error(coreSim:::possible_interaction_terms(fake_names, n = 6))
 })
 
 # Test ci_check --------------------------------------------------------------

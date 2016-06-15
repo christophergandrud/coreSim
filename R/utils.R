@@ -124,6 +124,9 @@ max_period_count <- function(x) {
 
 possible_interaction_terms <- function(x, n = 2) {
 
+    if (n > length(x))
+        stop('Number of possible interaction terms cannot exceed number of base terms.')
+
     one_set <- function(base_names, x2) {
         if (missing(x2)) x2 <- base_names
         comb <- vector()
