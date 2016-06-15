@@ -48,7 +48,7 @@ interest.
 
 # Examples
 
-# Normal linear model 
+## Normal linear model 
 
 Here is an example using data from the **car** package:
 
