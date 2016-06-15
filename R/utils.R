@@ -152,3 +152,15 @@ possible_interaction_terms <- function(x, n = 2) {
     return(out)
 }
 
+#' Convert \code{ci} interval from percent to proportion and check if valid
+#'
+#' @noRd
+
+ci_check <- function(x) {
+    if (x > 1 & x <= 100) x <- x / 100
+    if (x <= 0 | x > 1) {
+        stop(sprintf("%s is not a valid central interval.", x),
+             call. = FALSE)
+    }
+    return(x)
+}

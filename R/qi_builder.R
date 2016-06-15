@@ -10,17 +10,23 @@
 #' @param model a function for calculating how to find the quantity of interest
 #' from a vector of the fitted linear systematic component.
 #' @param ci the proportion of the central interval of the simulations to
-#' return. Must be in (0, 1].
+#' return. Must be in (0, 1] or equivalently (0, 100].
 #' @param slim logical indicating whether to (if \code{FALSE}) return all
 #' simulations in the central interval specified by \code{ci} for each fitted
 #' scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
 #' See \code{\link{qi_slimmer}} for more details.
 #' @param ... arguments to pass to \code{\link{linear_systematic}}.
 #'
-#' @return If \code{slimmer = FALSE} data frame of fitted values supplied in
+#' @return If \code{slimmer = FALSE} a data frame of fitted values supplied in
 #' \code{newdata} and associated simulated quantities of interest for all
 #' simulations in the central interval specified by \code{ci}. The quantities
 #' of interest are in a column named \code{qi_}.
+#'
+#' If \code{slimmer = TRUE} a data frame of fitted values supplied in
+#' \code{newdata} and the minimum, median, and maximum values of the central
+#' interval specified by \code{ci} for each scenario are returned in three
+#' columns named \code{qi_min}, \code{qi_median}, and \code{qi_max},
+#' respectively.
 #'
 #' @examples
 #' library(car)
@@ -67,10 +73,7 @@
 
 qi_builder <- function(b_sims, newdata, model, ci = 0.95, slim = FALSE, ...) {
     qi_ <- NULL
-    if (ci <= 0 | ci > 1) {
-        stop("ci must be greater than 0 and not greater than 1.",
-             call. = FALSE)
-    }
+    ci <- ci_check(ci)
 
     qi_df <- linear_systematic(b_sims = b_sims, newdata = newdata, ...)
 

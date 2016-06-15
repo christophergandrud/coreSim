@@ -20,7 +20,7 @@ linear regression model is assumed and the predicted values are returned
 from a vector of the fitted linear systematic component.}
 
 \item{ci}{the proportion of the central interval of the simulations to
-return. Must be in (0, 1].}
+return. Must be in (0, 1] or equivalently (0, 100].}
 
 \item{slim}{logical indicating whether to (if \code{FALSE}) return all
 simulations in the central interval specified by \code{ci} for each fitted
@@ -30,10 +30,16 @@ See \code{\link{qi_slimmer}} for more details.}
 \item{...}{arguments to pass to \code{\link{linear_systematic}}.}
 }
 \value{
-If \code{slimmer = FALSE} data frame of fitted values supplied in
+If \code{slimmer = FALSE} a data frame of fitted values supplied in
 \code{newdata} and associated simulated quantities of interest for all
 simulations in the central interval specified by \code{ci}. The quantities
 of interest are in a column named \code{qi_}.
+
+If \code{slimmer = TRUE} a data frame of fitted values supplied in
+\code{newdata} and the minimum, median, and maximum values of the central
+interval specified by \code{ci} for each scenario are returned in three
+columns named \code{qi_min}, \code{qi_median}, and \code{qi_max},
+respectively.
 }
 \description{
 Find quantities of interest from generalized linear models

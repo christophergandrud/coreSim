@@ -87,6 +87,7 @@ test_that('qi_builder output validity', {
     expect_equal(nrow(linear_qi_slim), 11)
     expect_equal(names(linear_qi_slim), c('education', 'typewc', 'qi_min',
                                        'qi_median', 'qi_max'))
+    expect_error(qi_builder(m2_sims, m2_fitted, model = pr_function, ci = 950))
 })
 
 # Test qi_slimmer --------------------------------------------------------------
@@ -147,4 +148,12 @@ test_that('interaction_builder output validity', {
                                       'Population.Frost',
                                       'in.come.Population.Frost'))
     expect_equal(ncol(inter_systematic), 5)
+})
+
+# Test ci_check --------------------------------------------------------------
+test_that('ci_check output validity', {
+    expect_equal(coreSim:::ci_check(95), 0.95)
+    expect_equal(coreSim:::ci_check(1), 1)
+    expect_equal(coreSim:::ci_check(0.5), 0.5)
+    expect_error(coreSim:::ci_check(500))
 })
