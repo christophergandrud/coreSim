@@ -58,6 +58,7 @@ library(car)
 
 # Normal linear model
 m1 <- lm(prestige ~ education + type, data = Prestige)
+
 # Simulate coefficients
 m1_sims <- b_sim(m1)
 
