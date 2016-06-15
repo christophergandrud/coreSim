@@ -131,7 +131,7 @@ ggplot(linear_qi_slim, aes(education, qi_median)) +
 
 ![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
 
-# Predicted probabilities from logistic regressions
+## Predicted probabilities from logistic regressions
 
 By default `qi_builder` simply returns the linear systematic component, which 
 in normal linear regression is simply the predicted y, i.e. 
