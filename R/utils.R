@@ -60,7 +60,6 @@ qi_slimmer <- function(df){
 
 
 #' Find interactions in fitted data frame
-#'
 #' @noRd
 
 interaction_builder <- function(b_sims, newdata) {
@@ -97,9 +96,7 @@ interaction_builder <- function(b_sims, newdata) {
 
 
 #' Bind column to empty data.frame
-#'
 #' @source http://stackoverflow.com/a/26685092/1705044
-#'
 #' @noRd
 
 cbind_fill <- function(...){
@@ -111,7 +108,6 @@ cbind_fill <- function(...){
 }
 
 #' Find the maximum number of periods in the elements of a character string
-#'
 #' @noRd
 
 max_period_count <- function(x) {
@@ -119,7 +115,6 @@ max_period_count <- function(x) {
 }
 
 #' Find all possible interaction terms
-#'
 #' @noRd
 
 possible_interaction_terms <- function(x, n = 2) {
@@ -156,7 +151,6 @@ possible_interaction_terms <- function(x, n = 2) {
 }
 
 #' Convert \code{ci} interval from percent to proportion and check if valid
-#'
 #' @noRd
 
 ci_check <- function(x) {
@@ -169,7 +163,6 @@ ci_check <- function(x) {
 }
 
 #' Check the user supplied QI function for consistency
-#'
 #' @noRd
 
 FUN_check <- function(x) {
@@ -181,7 +174,6 @@ FUN_check <- function(x) {
 }
 
 #' Check results from user supplied function
-#'
 #' @noRd
 
 FUN_results_check <- function(x) {
@@ -191,3 +183,48 @@ FUN_results_check <- function(x) {
         stop('FUN returned a non-numeric vector.', call. = FALSE)
 }
 
+#' Find scenarios to simulate from fitted model objects
+#' @noRd
+
+find_scenarios <- function(obj, nsim) {
+    # Supported model types for scenario extraction
+    supported <- c('lm', 'glm')
+    if (!any(supported %in% class(obj)))
+        stop(sprintf('Scenarios cannot currently be extracted from %s models.\n Please define scenarios with newdata.',
+            class(obj)), call. = FALSE)
+
+    out <- obj$model[, -1]
+
+    out <- out[!duplicated(out[, 1:ncol(out)]), ]
+
+    nscenarios <- nsim * nrow(newdata)
+        if (nscenarios > 1000000)
+            stop('%s unique scenarios were found.\nThis would create %s simulations.\n    For manageable computation, pslease supply a smaller number of scenarios to newdata.',
+            nscenarios, call. = FALSE)
+
+    return(out)
+}
+
+#' Convert factor levels into binary categorical values
+#' @noRd
+
+factorise <- function(x, b_sims) {
+    x <- data.frame(x)
+    comb <- x
+    for (i in names(x)) {
+        if(is.character(x[[i]]) | is.factor(x[[i]])) {
+            unique_levels <- unique(x[[i]])
+            new_cols <- sprintf('%s%s', i, unique_levels)
+
+            cat_df <- data.frame(
+                        matrix(0, nrow = nrow(x), ncol = length(new_cols)))
+            names(cat_df) <- new_cols
+
+            for (u in new_cols) cat_df[, u][x[[i]] == gsub(i, '', u)] <- 1
+            comb <- comb[, !(names(comb) %in% i), drop = FALSE]
+            comb <- cbind(comb, cat_df)
+        }
+    }
+    comb <- comb[, names(comb) %in% names(b_sims), drop = FALSE]
+    return(comb)
+}

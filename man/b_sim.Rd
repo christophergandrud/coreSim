@@ -10,7 +10,7 @@ b_sim(obj, nsim = 1000)
 \arguments{
 \item{obj}{a fitted model object.}
 
-\item{nsim}{number of simulations to draw}
+\item{nsim}{number of simulations to draw.}
 }
 \value{
 A data frame of simulated coefficients from \code{obj}.

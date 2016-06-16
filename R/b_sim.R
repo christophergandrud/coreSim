@@ -2,7 +2,7 @@
 #' normal distribution
 #'
 #' @param obj a fitted model object.
-#' @param nsim number of simulations to draw
+#' @param nsim number of simulations to draw.
 #'
 #' @return A data frame of simulated coefficients from \code{obj}.
 #'

@@ -1,22 +1,27 @@
 #' Find quantities of interest from generalized linear models
 #'
-#' @param b_sims a data frame created by \code{\link{b_sim}} of simulated
-#' coefficients
-#' @param newdata a data frame of fitted values with column names corresponding
-#' to variable names in \code{b_sims}. If \code{missing} then a normal
-#' linear regression model is assumed and the predicted values are returned
-#' (e.g. the fitted linear systematic component from
-#' \code{\link{linear_systematic}}).
+#' @param obj a fitted model object from which to base coefficient simulations
+#' on.
+#' @param newdata an optional data frame of fitted values with column names
+#' corresponding to variable names in \code{b_sims}. If \code{missing}
+#' then observations used to fit the model in \code{obj} will be used.
 #' @param FUN a function for calculating how to find the quantity of interest
 #' from a vector of the fitted linear systematic component. It must return
-#' a numeric vector.
+#' a numeric vector. If \code{missing} then a normal
+#' linear regression model is assumed and the predicted values are returned
+#' (i.e. the fitted linear systematic component from
+#' \code{\link{linear_systematic}}).
+#' @param nsim number of simulations to draw.
 #' @param ci the proportion of the central interval of the simulations to
 #' return. Must be in (0, 1] or equivalently (0, 100].
 #' @param slim logical indicating whether to (if \code{FALSE}) return all
 #' simulations in the central interval specified by \code{ci} for each fitted
 #' scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
 #' See \code{\link{qi_slimmer}} for more details.
-#' @param ... arguments to pass to \code{\link{linear_systematic}}.
+#' @param b_sims an optional data frame created by \code{\link{b_sim}} of
+#' simulated coefficients. Only used if \code{obj} is not supplied.
+#' @param ... arguments to pass to
+#' \code{\link{linear_systematic}}.
 #'
 #' @return If \code{slimmer = FALSE} a data frame of fitted values supplied in
 #' \code{newdata} and associated simulated quantities of interest for all
@@ -34,13 +39,14 @@
 #'
 #' ## Normal linear model
 #' m1 <- lm(prestige ~ education + type, data = Prestige)
-#' # Simulate coefficients
-#' m1_sims <- b_sim(m1)
+#'
+#' # Using observed data as scenarios
+#' linear_qi_obs <- qi_builder(m1)
 #'
 #' # Create fitted values
 #' fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
 #'
-#' linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
+#' linear_qi <- qi_builder(m1, newdata = fitted_df_1)
 #'
 #' ## Logistic regression
 #' # Download data
@@ -51,20 +57,17 @@
 #' # Estimate model
 #' m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
 #'
-#' # Simulate coefficients
-#' m2_sims <- b_sim(m2)
-#'
-#' # Create fitted values
+#' # Specify fitted values
 #' m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
-#'                          rank4 = 1)
+#'                          rank = '4')
 #'
 #' # Function to find predicted probabilities from logistic regression models
 #' pr_function <- function(x) 1 / (1 + exp(-x))
 #'
 #' # Find quantity of interest
-#' logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function)
+#' logistic_qi_1 <- qi_builder(m2, m2_fitted, FUN = pr_function)
 #'
-#' logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function,
+#' logistic_qi_2 <- qi_builder(m2, m2_fitted, FUN = pr_function,
 #'                          slim = TRUE)
 #'
 #' @importFrom stats quantile
@@ -72,9 +75,17 @@
 #'
 #' @export
 
-qi_builder <- function(b_sims, newdata, FUN, ci = 0.95, slim = FALSE, ...) {
+qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
+                      slim = FALSE, b_sims, ...) {
     qi_ <- NULL
     ci <- ci_check(ci)
+
+    if (!missing(obj)) b_sims <- b_sim(obj = obj, nsim = nsim)
+
+    if (missing(newdata) & !missing(obj))
+        newdata <- find_scenarios(obj = obj, nsim = nsim)
+    if (missing(newdata) & missing(obj))
+        stop('At least one of obj and newdata must be supplied to find simulation scenarios.')
 
     qi_df <- linear_systematic(b_sims = b_sims, newdata = newdata, ...)
 

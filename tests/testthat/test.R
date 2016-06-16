@@ -45,8 +45,9 @@ test_that('linear_systematic output validity', {
                   sex = c(0,0,0,0,1,1,1))
     # Fit a stratified model
     m_coxph <- coxph(Surv(time, status) ~ x + strata(sex), test1)
-    m_coxph <- sim_coxph <- b_sim(m_coxph)
-    ls_coxph <- linear_systematic(sim_coxph, newdata = data.frame(x = 1))
+    sim_coxph <- b_sim(m_coxph)
+    ls_coxph <- linear_systematic(b_sims = sim_coxph,
+                                  newdata = data.frame(x = 1))
 
     expect_is(ls_lm$ls_, 'numeric')
     expect_true(mean(ls_lm$ls_) < mean(ls_lm_no_intercept$ls_))
@@ -75,11 +76,13 @@ test_that('qi_builder output validity', {
     Admission <- read.csv(URL)
     Admission$rank <- as.factor(Admission$rank)
     m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
+
     m2_sims <- b_sim(m2)
+
     m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(2, 4),
                              rank4 = 1)
     pr_function <- function(x) 1 / (1 + exp(-x))
-    logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_function)
+    logistic_qi <- qi_builder(m2, m2_fitted, FUN = pr_function)
 
     expect_is(linear_qi$qi_, 'numeric')
     expect_is(logistic_qi$qi_, 'numeric')
@@ -87,11 +90,11 @@ test_that('qi_builder output validity', {
     expect_equal(nrow(linear_qi_slim), 11)
     expect_equal(names(linear_qi_slim), c('education', 'typewc', 'qi_min',
                                        'qi_median', 'qi_max'))
-    expect_error(qi_builder(m2_sims, m2_fitted, FUN = pr_function, ci = 950))
-    expect_error(qi_builder(m2_sims, m2_fitted, FUN = function(x, y){x + y}))
-    expect_error(qi_builder(m2_sims, m2_fitted, FUN = function(x){x <- 'a'}))
-    expect_error(qi_builder(m2_sims, m2_fitted, FUN = function(x){x <- data.frame()}))
-    expect_error(qi_builder(m2_sims, m2_fitted, FUN = 'test_fail'))
+    expect_error(qi_builder(m2, m2_fitted, FUN = pr_function, ci = 950))
+    expect_error(qi_builder(m2, m2_fitted, FUN = function(x, y){x + y}))
+    expect_error(qi_builder(m2, m2_fitted, FUN = function(x){x <- 'a'}))
+    expect_error(qi_builder(m2, m2_fitted, FUN = function(x){x <- data.frame()}))
+    expect_error(qi_builder(m2, m2_fitted, FUN = 'test_fail'))
 
 })
 
