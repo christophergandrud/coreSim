@@ -1,6 +1,6 @@
 ![coreSim logo](img/coreSim_logo.png)
 
-Version: 0.1.0 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
+Version: 0.2 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 [![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
 
 > Core functionality for simulating quantities of interest from generalised 
@@ -39,11 +39,9 @@ These characteristics allow **coreSim** to form the backbone of many specific an
 1. Estimate your model using whatever GLM model fitting function you like 
 (note: I've only tested `lm`, `glm`, and `survival`).
 
-2. Simulate coefficients with `b_sim`.
+2. Find your quantities of interest with `qi_builder`.
 
-3. Find your quantities of interest with `qi_builder`.
-
-4. Present your results, e.g. by plotting the simulated quantities of 
+3. Present your results, e.g. by plotting the simulated quantities of 
 interest.
 
 # Examples
@@ -59,14 +57,12 @@ library(car)
 
 # Normal linear model
 m1 <- lm(prestige ~ education + type, data = Prestige)
-# Simulate coefficients
-m1_sims <- b_sim(m1)
 
 # Create fitted values
-fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
+fitted_df_1 <- expand.grid(education = 6:16, type = 'wc')
 
 # Find predicted outcomes (95% central interval, by default)
-linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
+linear_qi <- qi_builder(obj = m1, newdata = fitted_df_1)
 ```
 
 ```
@@ -79,12 +75,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 15.56093
-## 2         6      1 24.59888
-## 3         6      1 14.62604
-## 4         6      1 25.05122
-## 5         6      1 20.38014
-## 6         6      1 21.54174
+## 1         6      1 19.24032
+## 2         6      1 22.04271
+## 3         6      1 19.31616
+## 4         6      1 16.21239
+## 5         6      1 18.43405
+## 6         6      1 15.58543
 ```
 
 ### Slimmed simulation data
@@ -99,20 +95,19 @@ minimum, median, and maximum values of the central interval for each scenario:
 
 
 ```r
-linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1, 
-                             slim = TRUE)
+linear_qi_slim <- qi_builder(m1, newdata = fitted_df_1, slim = TRUE)
 
 head(linear_qi_slim)
 ```
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 11.75934  19.14915 26.38990
-## 2         7      1 17.22595  23.79351 30.04276
-## 3         8      1 22.90708  28.35126 33.70815
-## 4         9      1 28.58959  32.92120 37.31051
-## 5        10      1 33.74395  37.51279 41.14294
-## 6        11      1 38.76235  42.06075 45.32449
+## 1         6      1 12.38370  19.39109 26.87312
+## 2         7      1 18.01531  23.99597 30.30749
+## 3         8      1 23.51079  28.54604 33.81511
+## 4         9      1 28.69419  33.06522 37.42744
+## 5        10      1 34.02997  37.59776 41.11163
+## 6        11      1 38.96397  42.08208 45.29848
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -161,27 +156,23 @@ Admission$rank <- as.factor(Admission$rank)
 # Estimate model
 m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
 
-# Simulate coefficients
-m2_sims <- b_sim(m2)
-
 # Create fitted values
-m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
-                         rank4 = 1)
+m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4), rank = '4')
 
 # Find quantity of interest
-logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_fun, slim = TRUE)
+logistic_qi <- qi_builder(m2, m2_fitted, FUN = pr_fun, slim = TRUE)
 
 head(logistic_qi)
 ```
 
 ```
 ##   gre gpa rank4      qi_min  qi_median     qi_max
-## 1 220   1     1 0.002870557 0.01438024 0.06935748
-## 2 230   1     1 0.002936545 0.01478719 0.07023445
-## 3 240   1     1 0.003006423 0.01508441 0.07101807
-## 4 250   1     1 0.003096031 0.01539632 0.07180976
-## 5 260   1     1 0.003188301 0.01577398 0.07260958
-## 6 270   1     1 0.003299854 0.01610704 0.07341760
+## 1 220   1     1 0.002616115 0.01384145 0.06389668
+## 2 230   1     1 0.002653480 0.01418987 0.06495385
+## 3 240   1     1 0.002691377 0.01453666 0.06602728
+## 4 250   1     1 0.002753199 0.01489537 0.06711718
+## 5 260   1     1 0.002825886 0.01522181 0.06822375
+## 6 270   1     1 0.002900487 0.01552276 0.06934721
 ```
 
 

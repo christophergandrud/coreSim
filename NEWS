@@ -1,0 +1,12 @@
+# Version 0.2
+
+- `b_sim` has been incorporated into qi_builder so that the simulated
+coefficients and QI calculations can be accomplished in one function call.
+
+- Now handles categorical variables entered as `newdata` either in their
+original format or matching the coefficient name output.
+
+
+# Version 0.1
+
+- Minimal working version.

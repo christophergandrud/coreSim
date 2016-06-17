@@ -39,11 +39,9 @@ These characteristics allow **coreSim** to form the backbone of many specific an
 1. Estimate your model using whatever GLM model fitting function you like 
 (note: I've only tested `lm`, `glm`, and `survival`).
 
-2. Simulate coefficients with `b_sim`.
+2. Find your quantities of interest with `qi_builder`.
 
-3. Find your quantities of interest with `qi_builder`.
-
-4. Present your results, e.g. by plotting the simulated quantities of 
+3. Present your results, e.g. by plotting the simulated quantities of 
 interest.
 
 # Examples
@@ -59,14 +57,11 @@ library(car)
 # Normal linear model
 m1 <- lm(prestige ~ education + type, data = Prestige)
 
-# Simulate coefficients
-m1_sims <- b_sim(m1)
-
 # Create fitted values
-fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
+fitted_df_1 <- expand.grid(education = 6:16, type = 'wc')
 
 # Find predicted outcomes (95% central interval, by default)
-linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1)
+linear_qi <- qi_builder(obj = m1, newdata = fitted_df_1)
 
 head(linear_qi)
 ```
@@ -82,8 +77,7 @@ can be efficiently stored and plotted. Using `slim = TRUE` will return only the
 minimum, median, and maximum values of the central interval for each scenario:
 
 ```{r, message=FALSE}
-linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df_1, 
-                             slim = TRUE)
+linear_qi_slim <- qi_builder(m1, newdata = fitted_df_1, slim = TRUE)
 
 head(linear_qi_slim)
 ```
@@ -129,15 +123,11 @@ Admission$rank <- as.factor(Admission$rank)
 # Estimate model
 m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
 
-# Simulate coefficients
-m2_sims <- b_sim(m2)
-
 # Create fitted values
-m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4),
-                         rank4 = 1)
+m2_fitted <- expand.grid(gre = seq(220, 800, by = 10), gpa = c(1, 4), rank = '4')
 
 # Find quantity of interest
-logistic_qi <- qi_builder(m2_sims, m2_fitted, FUN = pr_fun, slim = TRUE)
+logistic_qi <- qi_builder(m2, m2_fitted, FUN = pr_fun, slim = TRUE)
 
 head(logistic_qi)
 ```
