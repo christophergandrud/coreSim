@@ -40,7 +40,9 @@
 #' @export
 
 linear_systematic <- function(b_sims, newdata, inc_intercept = TRUE) {
+    newdata <- non_linear_transformer(x = newdata, b_sims = b_sims)
     newdata <- factorise(x = newdata, b_sims = b_sims)
+
     fitted_names <- names(newdata)
 
     if (!('intercept_' %in% names(b_sims))) inc_intercept <- FALSE

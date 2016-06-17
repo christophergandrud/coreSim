@@ -37,6 +37,14 @@ test_that('linear_systematic output validity', {
                                             newdata = fitted_df,
                                             inc_intercept = FALSE)
 
+    mpoly <- lm(prestige ~ education + I(education ^2) + type, data = Prestige)
+    mpoly_sims <- b_sim(mpoly)
+    ls_mpoly <- linear_systematic(b_sims = mpoly_sims, newdata = fitted_df)
+
+    mlog <- lm(prestige ~ log(education) + type, data = Prestige)
+    mlog_sims <- b_sim(mlog)
+    ls_mlog <- linear_systematic(b_sims = mlog_sims, newdata = fitted_df)
+
     # Survival model (no intercept term)
     library(survival)
     test1 <- list(time = c(4,3,1,1,2,2,3),
@@ -52,6 +60,9 @@ test_that('linear_systematic output validity', {
     expect_is(ls_lm$ls_, 'numeric')
     expect_true(mean(ls_lm$ls_) < mean(ls_lm_no_intercept$ls_))
     expect_is(ls_coxph$ls_, 'numeric')
+    expect_equal(names(ls_mpoly), c('education', 'typewc', 'I.education.2.',
+                                    'ls_'))
+    expect_equal(names(ls_mlog), c('typewc', 'log.education.', 'ls_'))
 })
 
 # Test qi_builder --------------------------------------------------------------

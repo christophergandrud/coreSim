@@ -3,8 +3,15 @@
 - `b_sim` has been incorporated into qi_builder so that the simulated
 coefficients and QI calculations can be accomplished in one function call.
 
-- Now handles categorical variables entered as `newdata` either in their
+- Handles categorical variables entered as `newdata` either in their
 original format or matching the coefficient name output.
+
+- Can find polynomially transformed terms if entered in the model fit function
+with there base term + the `I` function. Note, currently only supports up to
+`x^9`.
+
+- Can find natural logarithmically transfromed terms if entered in the model
+fit function with the `log` function.
 
 
 # Version 0.1

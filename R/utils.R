@@ -111,6 +111,7 @@ cbind_fill <- function(...){
 #' @noRd
 
 max_period_count <- function(x) {
+    x <- x[!(grepl('^I\\..*\\.[1-9].*$', x))]
     max(nchar(x) - nchar(gsub('\\.', '', x)))
 }
 
@@ -227,4 +228,43 @@ factorise <- function(x, b_sims) {
     }
     comb <- comb[, names(comb) %in% names(b_sims), drop = FALSE]
     return(comb)
+}
+
+#' Find non-linear transformations of variables in newdata
+#' @noRd
+
+non_linear_transformer <- function(x, b_sims) {
+    sim_names <- names(b_sims)
+
+    # Polynomials
+    ## Note: assumes poly <= 9
+    if (any(grepl('^I\\..*\\.[1-9]\\.$', sim_names))) {
+        sub_names <- sim_names[grepl('^I\\..*\\.[1-9].*$', sim_names)]
+        sub_names <- sub_names[!(sub_names %in% names(x))]
+        for (i in sub_names) {
+            var_i <- gsub('^I\\.', '', i)
+            var_i <- gsub('\\.[1-9]\\.$', '', var_i)
+
+            if((var_i %in% colnames(x))) {
+                pow_i <- as.numeric(substr(i, nchar(i)-1, nchar(i)-1))
+                x[, i] <- x[, var_i]^pow_i
+            }
+        }
+    }
+
+    # Natural logarithms
+    if (any(grepl('^log\\..*\\.$', sim_names))) {
+        sub_names <- sim_names[grepl('^log\\..*\\.$', sim_names)]
+        sub_names <- sub_names[!(sub_names %in% names(x))]
+        for (i in sub_names) {
+            var_i <- gsub('^log\\.', '', i)
+            var_i <- gsub('\\.$', '', var_i)
+
+            if((var_i %in% colnames(x))) {
+                x[, i] <- log(x[, var_i])
+            }
+        }
+    }
+
+    return(x)
 }
