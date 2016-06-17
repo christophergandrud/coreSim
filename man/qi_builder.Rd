@@ -12,7 +12,8 @@ qi_builder(obj, newdata, FUN, ci = 0.95, nsim = 1000, slim = FALSE,
 on.}
 
 \item{newdata}{an optional data frame of fitted values with column names
-corresponding to variable names in \code{b_sims}. If \code{missing}
+corresponding to variable names in \code{b_sims}. Note that variabless not
+included in \code{newdata} will be fitted at 0. If \code{missing}
 then observations used to fit the model in \code{obj} will be used.}
 
 \item{FUN}{a function for calculating how to find the quantity of interest

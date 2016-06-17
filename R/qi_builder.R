@@ -3,7 +3,8 @@
 #' @param obj a fitted model object from which to base coefficient simulations
 #' on.
 #' @param newdata an optional data frame of fitted values with column names
-#' corresponding to variable names in \code{b_sims}. If \code{missing}
+#' corresponding to variable names in \code{b_sims}. Note that variabless not
+#' included in \code{newdata} will be fitted at 0. If \code{missing}
 #' then observations used to fit the model in \code{obj} will be used.
 #' @param FUN a function for calculating how to find the quantity of interest
 #' from a vector of the fitted linear systematic component. It must return
