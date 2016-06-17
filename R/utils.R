@@ -197,7 +197,7 @@ find_scenarios <- function(obj, nsim) {
 
     out <- out[!duplicated(out[, 1:ncol(out)]), ]
 
-    nscenarios <- nsim * nrow(newdata)
+    nscenarios <- nsim * nrow(out)
         if (nscenarios > 1000000)
             stop('%s unique scenarios were found.\nThis would create %s simulations.\n    For manageable computation, pslease supply a smaller number of scenarios to newdata.',
             nscenarios, call. = FALSE)
