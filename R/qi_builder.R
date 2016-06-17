@@ -21,6 +21,8 @@
 #' See \code{\link{qi_slimmer}} for more details.
 #' @param b_sims an optional data frame created by \code{\link{b_sim}} of
 #' simulated coefficients. Only used if \code{obj} is not supplied.
+#' @param large_computation logical. If \code{newdata} is not supplied,
+#' whether to allow > 1000000 simulated quantities of interest to be found.
 #' @param ... arguments to pass to
 #' \code{\link{linear_systematic}}.
 #'
@@ -77,14 +79,17 @@
 #' @export
 
 qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
-                      slim = FALSE, b_sims, ...) {
+                      slim = FALSE, b_sims, large_computation = FALSE,
+                      ...)
+{
     qi_ <- NULL
     ci <- ci_check(ci)
 
     if (!missing(obj)) b_sims <- b_sim(obj = obj, nsim = nsim)
 
     if (missing(newdata) & !missing(obj))
-        newdata <- find_scenarios(obj = obj, nsim = nsim)
+        newdata <- find_scenarios(obj = obj, nsim = nsim,
+                                 large_computation = large_computation)
     if (missing(newdata) & missing(obj))
         stop('At least one of obj and newdata must be supplied to find simulation scenarios.')
 

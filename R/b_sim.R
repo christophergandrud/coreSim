@@ -20,7 +20,8 @@
 #'
 #' @export
 
-b_sim <- function(obj, nsim = 1000) {
+b_sim <- function(obj, nsim = 1000)
+{
     obj_coef <- coef(obj)
     obj_vcov <- vcov(obj)
 

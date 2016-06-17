@@ -5,7 +5,7 @@
 \title{Find quantities of interest from generalized linear models}
 \usage{
 qi_builder(obj, newdata, FUN, ci = 0.95, nsim = 1000, slim = FALSE,
-  b_sims, ...)
+  b_sims, large_computation = FALSE, ...)
 }
 \arguments{
 \item{obj}{a fitted model object from which to base coefficient simulations
@@ -35,6 +35,9 @@ See \code{\link{qi_slimmer}} for more details.}
 
 \item{b_sims}{an optional data frame created by \code{\link{b_sim}} of
 simulated coefficients. Only used if \code{obj} is not supplied.}
+
+\item{large_computation}{logical. If \code{newdata} is not supplied,
+whether to allow > 1000000 simulated quantities of interest to be found.}
 
 \item{...}{arguments to pass to
 \code{\link{linear_systematic}}.}

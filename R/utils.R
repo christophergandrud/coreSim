@@ -187,7 +187,7 @@ FUN_results_check <- function(x) {
 #' Find scenarios to simulate from fitted model objects
 #' @noRd
 
-find_scenarios <- function(obj, nsim) {
+find_scenarios <- function(obj, nsim, large_computation = FALSE) {
     # Supported model types for scenario extraction
     supported <- c('lm', 'glm')
     if (!any(supported %in% class(obj)))
@@ -198,11 +198,13 @@ find_scenarios <- function(obj, nsim) {
 
     out <- out[!duplicated(out[, 1:ncol(out)]), ]
 
-    nscenarios <- nsim * nrow(out)
-        if (nscenarios > 1000000)
-            stop('%s unique scenarios were found.\nThis would create %s simulations.\n    For manageable computation, pslease supply a smaller number of scenarios to newdata.',
-            nscenarios, call. = FALSE)
-
+    if (!isTRUE(large_computation)) {
+        unique_scenarios <- nrow(out)
+        nout_sims <- nsim * unique_scenarios
+            if (nout_sims > 1000000)
+                stop(sprintf('%s unique scenarios were found.\nWith %s simulations, %s simulated scenarios would be created.\n\nFor manageable computation, please supply a smaller number of scenarios to newdata.',
+                             unique_scenarios, nsim, nout_sims), call. = FALSE)
+    }
     return(out)
 }
 

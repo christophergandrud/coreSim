@@ -77,10 +77,11 @@ test_that('qi_builder output validity', {
     fitted_df <- expand.grid(education = 6:16, typewc = 1)
     linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
 
-    linear_qi_c1 <- qi_builder(b_sims = m1_sims, newdata = fitted_df, ci = 1)
+    linear_qi_c1 <- qi_builder(m1, newdata = fitted_df, ci = 1)
 
-    linear_qi_slim <- qi_builder(b_sims = m1_sims, newdata = fitted_df,
-                                 slim = TRUE)
+    linear_qi_slim <- qi_builder(m1, newdata = fitted_df, slim = TRUE)
+
+    linear_qi_auto_newdata <- qi_builder(m1)
 
     # Predicted probabilities from logistic regression
     URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
@@ -101,11 +102,23 @@ test_that('qi_builder output validity', {
     expect_equal(nrow(linear_qi_slim), 11)
     expect_equal(names(linear_qi_slim), c('education', 'typewc', 'qi_min',
                                        'qi_median', 'qi_max'))
+    expect_equal(nrow(linear_qi_auto_newdata), 88350)
+    expect_error(qi_builder(m1, nsim = 20000))
     expect_error(qi_builder(m2, m2_fitted, FUN = pr_function, ci = 950))
     expect_error(qi_builder(m2, m2_fitted, FUN = function(x, y){x + y}))
     expect_error(qi_builder(m2, m2_fitted, FUN = function(x){x <- 'a'}))
     expect_error(qi_builder(m2, m2_fitted, FUN = function(x){x <- data.frame()}))
     expect_error(qi_builder(m2, m2_fitted, FUN = 'test_fail'))
+
+    # Unsupported model for automatic newdata creation
+    library(survival)
+    test1 <- list(time = c(4,3,1,1,2,2,3),
+                  status = c(1,1,1,0,1,1,0),
+                  x = c(0,2,1,1,1,0,0),
+                  sex = c(0,0,0,0,1,1,1))
+    # Fit a stratified model
+    m_coxph <- coxph(Surv(time, status) ~ x + strata(sex), test1)
+    expect_error(qi_builder(m_coxph))
 
 })
 
@@ -118,7 +131,7 @@ test_that('qi_slimmer output validity', {
     m1 <- lm(prestige ~ education + type, data = Prestige)
     m1_sims <- b_sim(m1)
 
-    fitted_df <- expand.grid(education = 6:16, typewc = 1)
+    fitted_df <- expand.grid(education = 6:16, type = 'wc')
     linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
 
     linear_slim <- qi_slimmer(linear_qi)

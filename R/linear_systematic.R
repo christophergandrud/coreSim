@@ -39,7 +39,8 @@
 #'
 #' @export
 
-linear_systematic <- function(b_sims, newdata, inc_intercept = TRUE) {
+linear_systematic <- function(b_sims, newdata, inc_intercept = TRUE)
+{
     newdata <- non_linear_transformer(x = newdata, b_sims = b_sims)
     newdata <- factorise(x = newdata, b_sims = b_sims)
 
