@@ -28,7 +28,7 @@
 #' fitted_df <- expand.grid(education = 6:16, typewc = 1)
 #'
 #' # Find predicted outcomes (95% central interval, by default)
-#' linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
+#' linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df, slim = FALSE)
 #'
 #' # Slim data set
 #' linear_slim <- qi_slimmer(linear_qi)
@@ -201,7 +201,7 @@ find_scenarios <- function(obj, nsim, large_computation = FALSE) {
     if (!isTRUE(large_computation)) {
         unique_scenarios <- nrow(out)
         nout_sims <- nsim * unique_scenarios
-            if (nout_sims > 1000000)
+            if (nout_sims > 100000)
                 stop(sprintf('%s unique scenarios were found.\nWith %s simulations, %s simulated scenarios would be created.\n\nFor manageable computation, please supply a smaller number of scenarios to newdata.',
                              unique_scenarios, nsim, nout_sims), call. = FALSE)
     }

@@ -74,12 +74,13 @@ test_that('qi_builder output validity', {
     m1 <- lm(prestige ~ education + type, data = Prestige)
     m1_sims <- b_sim(m1)
 
-    fitted_df <- expand.grid(education = 6:16, typewc = 1)
+    fitted_df <- expand.grid(education = c(7, 6, 8:16), typewc = 1)
+
     linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
-
     linear_qi_c1 <- qi_builder(m1, newdata = fitted_df, ci = 1)
-
-    linear_qi_slim <- qi_builder(m1, newdata = fitted_df, slim = TRUE)
+    linear_qi_slim1 <- qi_builder(m1, newdata = fitted_df, slim = TRUE)
+    linear_qi_slim2 <- qi_builder(m1, newdata = fitted_df, original_order = TRUE,
+                                 slim = TRUE)
 
     linear_qi_auto_newdata <- qi_builder(m1)
 
@@ -99,10 +100,11 @@ test_that('qi_builder output validity', {
     expect_is(linear_qi$qi_, 'numeric')
     expect_is(logistic_qi$qi_, 'numeric')
     expect_equal(nrow(linear_qi_c1), 11000)
-    expect_equal(nrow(linear_qi_slim), 11)
-    expect_equal(names(linear_qi_slim), c('education', 'typewc', 'qi_min',
+    expect_equal(nrow(linear_qi_slim1), 11)
+    expect_equal(names(linear_qi_slim1), c('education', 'typewc', 'qi_min',
                                        'qi_median', 'qi_max'))
     expect_equal(nrow(linear_qi_auto_newdata), 88350)
+    expect_false(all(linear_qi_slim1$education == linear_qi_slim2$education))
     expect_error(qi_builder(m1, nsim = 20000))
     expect_error(qi_builder(m2, m2_fitted, FUN = pr_function, ci = 950))
     expect_error(qi_builder(m2, m2_fitted, FUN = function(x, y){x + y}))

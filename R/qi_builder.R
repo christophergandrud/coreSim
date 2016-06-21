@@ -22,7 +22,9 @@
 #' @param b_sims an optional data frame created by \code{\link{b_sim}} of
 #' simulated coefficients. Only used if \code{obj} is not supplied.
 #' @param large_computation logical. If \code{newdata} is not supplied,
-#' whether to allow > 1000000 simulated quantities of interest to be found.
+#' whether to allow > 100000 simulated quantities of interest to be found.
+#' @param original_order logical whether or not to keep the original scenario
+#' order when \code{slim = TRUE}. Choosing \code{FALSE} can imporove computation time.
 #' @param ... arguments to pass to
 #' \code{\link{linear_systematic}}.
 #'
@@ -80,6 +82,7 @@
 
 qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
                       slim = FALSE, b_sims, large_computation = FALSE,
+                      original_order = FALSE,
                       ...)
 {
     qi_ <- NULL
@@ -114,7 +117,14 @@ qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
         lower <- (1 - ci)/2
         upper <- 1 - lower
 
+        if (original_order) {
+            orig_order <- unique(qi_df[, 1:(ncol(qi_df)-1)])
+            orig_order <- apply(orig_order, 1, paste, collapse = '.')
+        }
+
         qi_df$scenario_ <- interaction(qi_df[, 1:(ncol(qi_df)-1)])
+        if (original_order)
+            qi_df$scenario_ <- factor(qi_df$scenario_, levels = orig_order)
         qi_list <- split(qi_df, qi_df[['scenario_']])
 
         qi_list <- lapply(1:length(qi_list), function(x){

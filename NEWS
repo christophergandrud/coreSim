@@ -13,6 +13,9 @@ with there base term + the `I` function. Note, currently only supports up to
 - Can find natural logarithmically transfromed terms if entered in the model
 fit function with the `log` function.
 
+- Added `original_order` to `qi_builder`. If `TRUE` then the values are returned
+in the original simulation order. Only relevant if `slim = TRUE`.
+
 
 # Version 0.1
 
