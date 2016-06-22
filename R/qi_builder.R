@@ -127,7 +127,7 @@ qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
             qi_df$scenario_ <- factor(qi_df$scenario_, levels = orig_order)
         qi_list <- split(qi_df, qi_df[['scenario_']])
 
-        qi_list <- lapply(1:length(qi_list), function(x){
+        qi_list <- lapply(seq_along(qi_list), function(x){
             lower_bound <- quantile(qi_list[[x]][,'qi_'], prob = lower)
             upper_bound <- quantile(qi_list[[x]][,'qi_'], prob = upper)
             subset(qi_list[[x]], qi_ >= lower_bound & qi_ <= upper_bound)
