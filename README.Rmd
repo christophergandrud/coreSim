@@ -13,7 +13,9 @@ can be an effective way of showing substantively meaningful results from
 generalised linear models (GLM). 
 
 This R package provides core functions that can serve as the **backbone** to other
-packages for finding and plotting simulated quantities of interest from GLMs.
+packages for finding and plotting simulated quantities of interest from GLMs. 
+
+**coreSim** currently powers [pltesim](https://github.com/christophergandrud/pltesim), a package for simulating probabilistic long-term effects from models with temporal dependence.
 
 # Motivation
 

@@ -1,6 +1,6 @@
 ![coreSim logo](img/coreSim_logo.png)
 
-Version: 0.2 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
+Version: 0.2.1 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 [![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
 
 > Core functionality for simulating quantities of interest from generalised 
@@ -13,7 +13,9 @@ can be an effective way of showing substantively meaningful results from
 generalised linear models (GLM). 
 
 This R package provides core functions that can serve as the **backbone** to other
-packages for finding and plotting simulated quantities of interest from GLMs.
+packages for finding and plotting simulated quantities of interest from GLMs. 
+
+**coreSim** currently powers [pltesim](https://github.com/christophergandrud/pltesim), a package for simulating probabilistic long-term effects from models with temporal dependence.
 
 # Motivation
 
@@ -75,12 +77,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 15.84580
-## 2         6      1 17.25101
-## 3         6      1 20.76469
-## 4         6      1 18.19965
-## 5         6      1 14.59555
-## 6         6      1 19.92556
+## 1         6      1 18.43851
+## 2         6      1 17.12221
+## 3         6      1 16.31412
+## 4         6      1 15.36899
+## 5         6      1 17.42337
+## 6         6      1 16.27303
 ```
 
 ### Slimmed simulation data
@@ -102,12 +104,12 @@ head(linear_qi_slim)
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 11.85975  19.15128 26.61284
-## 2         7      1 17.69129  23.75218 30.14186
-## 3         8      1 23.35706  28.27539 33.36871
-## 4         9      1 29.05336  32.87811 36.99481
-## 5        10      1 34.22103  37.49722 40.93139
-## 6        11      1 38.88970  42.11798 45.13602
+## 1         6      1 12.08147  19.27556 26.20059
+## 2         7      1 17.60270  23.85940 29.55701
+## 3         8      1 23.32574  28.42297 33.21622
+## 4         9      1 28.70608  33.00837 36.96313
+## 5        10      1 33.97227  37.55456 40.95404
+## 6        11      1 38.81737  42.17744 45.28413
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -167,12 +169,12 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4      qi_min  qi_median     qi_max
-## 1 220   1     1 0.002598304 0.01438119 0.05912521
-## 2 230   1     1 0.002653436 0.01463340 0.06028029
-## 3 240   1     1 0.002711280 0.01489218 0.06183422
-## 4 250   1     1 0.002767226 0.01527267 0.06244333
-## 5 260   1     1 0.002835756 0.01553088 0.06355183
-## 6 270   1     1 0.002892297 0.01591607 0.06488418
+## 1 220   1     1 0.002876056 0.01471823 0.06715281
+## 2 230   1     1 0.002929712 0.01512821 0.06810113
+## 3 240   1     1 0.003012824 0.01550514 0.06886728
+## 4 250   1     1 0.003055952 0.01583588 0.06942914
+## 5 260   1     1 0.003160715 0.01618569 0.07080234
+## 6 270   1     1 0.003269221 0.01662598 0.07201980
 ```
 
 
