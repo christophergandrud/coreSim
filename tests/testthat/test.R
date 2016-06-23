@@ -26,6 +26,8 @@ test_that('b_sim output validity', {
 test_that('linear_systematic output validity', {
     set.seed(100)
 
+    library(splines)
+
     # Linear model
     data('Prestige', package = 'car')
     m1 <- lm(prestige ~ education + type, data = Prestige)
@@ -45,6 +47,10 @@ test_that('linear_systematic output validity', {
     mlog_sims <- b_sim(mlog)
     ls_mlog <- linear_systematic(b_sims = mlog_sims, newdata = fitted_df)
 
+    mbs <- lm(prestige ~ bs(education) + type, data = Prestige)
+    mbs_sims <- b_sim(mbs)
+    ls_mbs <- linear_systematic(b_sims = mbs_sims, newdata = fitted_df)
+
     # Survival model (no intercept term)
     library(survival)
     test1 <- list(time = c(4,3,1,1,2,2,3),
@@ -63,6 +69,8 @@ test_that('linear_systematic output validity', {
     expect_equal(names(ls_mpoly), c('education', 'typewc', 'I.education.2.',
                                     'ls_'))
     expect_equal(names(ls_mlog), c('typewc', 'log.education.', 'ls_'))
+    expect_equal(names(ls_mbs), c('typewc', 'bs.education.1', 'bs.education.2',
+                                  'bs.education.3', 'ls_' ))
 })
 
 # Test qi_builder --------------------------------------------------------------

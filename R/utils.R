@@ -209,6 +209,7 @@ find_scenarios <- function(obj, nsim, large_computation = FALSE) {
 }
 
 #' Convert factor levels into binary categorical values
+#' @importFrom splines bs
 #' @noRd
 
 factorise <- function(x, b_sims) {
@@ -236,13 +237,14 @@ factorise <- function(x, b_sims) {
 #' @noRd
 
 non_linear_transformer <- function(x, b_sims) {
-    sim_names <- names(b_sims)
+    sim_names <- colnames(b_sims)
 
     # Polynomials
     ## Note: assumes poly <= 9
-    if (any(grepl('^I\\..*\\.[1-9]\\.$', sim_names))) {
-        sub_names <- sim_names[grepl('^I\\..*\\.[1-9].*$', sim_names)]
-        sub_names <- sub_names[!(sub_names %in% names(x))]
+    poly_pattern <- '^I\\..*\\.[1-9]\\.$'
+    if (any(grepl(poly_pattern, sim_names))) {
+        sub_names <- extract_names(x = x, sim_names = sim_names,
+                                   pattern = poly_pattern)
         for (i in sub_names) {
             var_i <- gsub('^I\\.', '', i)
             var_i <- gsub('\\.[1-9]\\.$', '', var_i)
@@ -255,9 +257,10 @@ non_linear_transformer <- function(x, b_sims) {
     }
 
     # Natural logarithms
-    if (any(grepl('^log\\..*\\.$', sim_names))) {
-        sub_names <- sim_names[grepl('^log\\..*\\.$', sim_names)]
-        sub_names <- sub_names[!(sub_names %in% names(x))]
+    log_pattern <- '^log\\..*\\.$'
+    if (any(grepl(log_pattern, sim_names))) {
+        sub_names <- extract_names(x = x, sim_names = sim_names,
+                                   pattern = log_pattern)
         for (i in sub_names) {
             var_i <- gsub('^log\\.', '', i)
             var_i <- gsub('\\.$', '', var_i)
@@ -268,5 +271,33 @@ non_linear_transformer <- function(x, b_sims) {
         }
     }
 
+    # B-Spline basis for polynomial splines
+    bs_pattern <- '^bs\\..*\\.[1-9]$'
+    if (any(grepl(bs_pattern, sim_names))) {
+        sub_names <- extract_names(x = x, sim_names = sim_names,
+                                   pattern = bs_pattern)
+        base_names <- gsub('^bs\\.', '', sub_names)
+        base_names <- gsub('\\.[1-9]$', '', base_names)
+        base_names <- unique(base_names)
+        for (i in base_names) {
+            i_names <- sub_names[grep(i, sub_names)]
+            d <- as.numeric(substr(sub_names, nchar(sub_names),
+                                         nchar(sub_names)))
+            d <- max(d)
+            temp_bs <- as.data.frame(bs(x[, i], degree = d))
+            names(temp_bs) <- i_names
+            x <- cbind(x, temp_bs)
+        }
+    }
+
     return(x)
+}
+
+#' Extract column names matching pattern
+#' @noRd
+
+extract_names <- function(x, sim_names, pattern) {
+    sub_names <- sim_names[grepl(pattern, sim_names)]
+    sub_names <- sub_names[!(sub_names %in% names(x))]
+    return(sub_names)
 }

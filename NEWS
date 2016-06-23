@@ -1,7 +1,10 @@
 
 # Version 0.2.1
 
-- Internal code improvements
+- Can find polynomial splies using b-splines basis. Note: apart from the
+degree of the piecewise polynomial, the default behaviour to `bs` is assumed.
+
+- Internal code improvements.
 
 # Version 0.2
 

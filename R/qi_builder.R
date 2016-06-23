@@ -24,7 +24,8 @@
 #' @param large_computation logical. If \code{newdata} is not supplied,
 #' whether to allow > 100000 simulated quantities of interest to be found.
 #' @param original_order logical whether or not to keep the original scenario
-#' order when \code{slim = TRUE}. Choosing \code{FALSE} can imporove computation time.
+#' order when \code{slim = TRUE}. Choosing \code{FALSE} can imporove computation
+#' time.
 #' @param ... arguments to pass to
 #' \code{\link{linear_systematic}}.
 #'
