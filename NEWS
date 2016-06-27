@@ -1,8 +1,8 @@
 
 # Version 0.2.1
 
-- Can find polynomial splies using b-splines basis. Note: apart from the
-degree of the piecewise polynomial b-splines, the default behaviour to `bs` is
+- Can find polynomial splines using b-splines basis. Note: apart from the
+degree of the piecewise polynomial, the default behaviour for `bs` is
 assumed.
 
 - Internal code improvements.
