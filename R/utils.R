@@ -278,6 +278,7 @@ non_linear_transformer <- function(x, b_sims) {
                                    pattern = bs_pattern)
         base_names <- gsub('^bs\\.', '', sub_names)
         base_names <- gsub('\\.[1-9]$', '', base_names)
+        base_names <- gsub('\\.\\.degree\\.\\.\\.[1-9]', '', base_names)
         base_names <- unique(base_names)
         for (i in base_names) {
             i_names <- sub_names[grep(i, sub_names)]

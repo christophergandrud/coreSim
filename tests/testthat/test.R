@@ -47,9 +47,13 @@ test_that('linear_systematic output validity', {
     mlog_sims <- b_sim(mlog)
     ls_mlog <- linear_systematic(b_sims = mlog_sims, newdata = fitted_df)
 
-    mbs <- lm(prestige ~ bs(education) + type, data = Prestige)
-    mbs_sims <- b_sim(mbs)
-    ls_mbs <- linear_systematic(b_sims = mbs_sims, newdata = fitted_df)
+    mbs1 <- lm(prestige ~ bs(education) + type, data = Prestige)
+    mbs1_sims <- b_sim(mbs1)
+    ls_mbs1 <- linear_systematic(b_sims = mbs1_sims, newdata = fitted_df)
+
+    mbs2 <- lm(prestige ~ bs(education, degree = 3) + type, data = Prestige)
+    mbs2_sims <- b_sim(mbs2)
+    ls_mbs2 <- linear_systematic(b_sims = mbs2_sims, newdata = fitted_df)
 
     # Survival model (no intercept term)
     library(survival)
@@ -69,8 +73,11 @@ test_that('linear_systematic output validity', {
     expect_equal(names(ls_mpoly), c('education', 'typewc', 'I.education.2.',
                                     'ls_'))
     expect_equal(names(ls_mlog), c('typewc', 'log.education.', 'ls_'))
-    expect_equal(names(ls_mbs), c('typewc', 'bs.education.1', 'bs.education.2',
+    expect_equal(names(ls_mbs1), c('typewc', 'bs.education.1', 'bs.education.2',
                                   'bs.education.3', 'ls_' ))
+    expect_equal(names(ls_mbs2), c('typewc', 'bs.education..degree...3.1',
+                                   'bs.education..degree...3.2',
+                                   'bs.education..degree...3.3', 'ls_' ))
 })
 
 # Test qi_builder --------------------------------------------------------------
