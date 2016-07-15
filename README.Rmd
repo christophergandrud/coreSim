@@ -24,15 +24,15 @@ the simulation approach to showing GLM results. The main previous implementation
 
 **coreSim** aims to overcome these issue with a focus on *simplicity*. It tries to:
 
-- Do a few things really well.
+- Do a small set of things really well.
 
-- Have as few dependencies as possible. Only import packages if they make significant performance improvements over what is available in base R.
+- Have as few dependencies as possible. Only import packages if they make significant performance improvements over base R.
 
-- Return simple `data.frame` output. 
+- Return simple `data.frame` output that can be easily manipulated. 
 
-- Have informative error messages that are easy for users to understand.
+- Have informative error messages that are easy for users to understand and which guide them to solutions.
 
-Additionally, **coreSim** is aiming for very high reliability. Simplicity helps with this, so does aiming for 100% code test coverage.
+Additionally, **coreSim** aims for very high reliability. Simplicity helps with acheive this goal. So does aiming for 100% code test coverage.
 
 These characteristics allow **coreSim** to form the backbone of many specific and unanticipated implementations of the simulation approach. 
 
