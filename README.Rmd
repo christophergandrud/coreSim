@@ -2,6 +2,9 @@
 
 Version: `r  packageVersion('coreSim')` [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 [![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
+[![CRAN Version](http://www.r-pkg.org/badges/version/coreSim)](http://cran.r-project.org/package=coreSim)
+![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/coreSim)
+![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/coreSim)
 
 > Core functionality for simulating quantities of interest from generalised 
 linear models.
