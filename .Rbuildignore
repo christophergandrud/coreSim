@@ -4,3 +4,4 @@ README.*md
 .travis.yml
 img/*
 figure/*
+.DS_Store
