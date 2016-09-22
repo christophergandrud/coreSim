@@ -1,8 +1,8 @@
 #' Find the systematic component in the linear form for fitted values in across
-#' each simulation (note largely for internal use in \code{\link{qi_builder}})
+#' each simulation (note: largely for internal use by \code{\link{qi_builder}})
 #'
 #' @param b_sims a data frame created by \code{\link{b_sim}} of simulated
-#' coefficients
+#' coefficients.
 #' @param newdata a data frame of fitted values with column names corresponding
 #' to variable names in \code{b_sims}. Variables in \code{b_sim} not present
 #' in \code{newdata} will be treated as fitted at 0. Interactions will

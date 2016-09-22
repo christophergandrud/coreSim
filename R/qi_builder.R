@@ -19,15 +19,20 @@
 #' simulations in the central interval specified by \code{ci} for each fitted
 #' scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
 #' See \code{\link{qi_slimmer}} for more details.
-#' @param b_sims an optional data frame created by \code{\link{b_sim}} of
-#' simulated coefficients. Only used if \code{obj} is not supplied.
+
 #' @param large_computation logical. If \code{newdata} is not supplied,
 #' whether to allow > 100000 simulated quantities of interest to be found.
 #' @param original_order logical whether or not to keep the original scenario
 #' order when \code{slim = TRUE}. Choosing \code{FALSE} can imporove computation
 #' time.
-#' @param ... arguments to pass to
-#' \code{\link{linear_systematic}}.
+#' @param b_sims an optional data frame created by \code{\link{b_sim}} of
+#' simulated coefficients. Only used if \code{obj} is not supplied.
+#' @param mu an optional vector giving the means of the variables. If \code{obj}
+#' or \code{b_sims} is supplied then \code{mu} is ignored.
+#' @param Sigma an optional positive-definite symmetric matrix specifying the
+#' covariance matrix of the variables. If \code{obj} or \code{b_sims} is
+#' supplied then \code{Sigma} is ignored.
+#' @param ... arguments to passed to \code{\link{linear_systematic}}.
 #'
 #' @return If \code{slimmer = FALSE} a data frame of fitted values supplied in
 #' \code{newdata} and associated simulated quantities of interest for all
@@ -53,6 +58,13 @@
 #' fitted_df_1 <- expand.grid(education = 6:16, typewc = 1)
 #'
 #' linear_qi <- qi_builder(m1, newdata = fitted_df_1)
+#'
+#' # Manually supply coefficient means and covariance matrix
+#' coefs <- coef(m1)
+#' vcov_matrix <- vcov(m1)
+#'
+#' linear_qi_custom_mu_Sigma <- qi_builder(mu = coefs, Sigma = vcov_matrix,
+#'                                  newdata = fitted_df_1)
 #'
 #' ## Logistic regression
 #' # Download data
@@ -82,14 +94,18 @@
 #' @export
 
 qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
-                      slim = FALSE, b_sims, large_computation = FALSE,
+                      slim = FALSE,  large_computation = FALSE,
                       original_order = FALSE,
+                      b_sims, mu, Sigma,
                       ...)
 {
     qi_ <- NULL
     ci <- ci_check(ci)
 
     if (!missing(obj)) b_sims <- b_sim(obj = obj, nsim = nsim)
+
+    if (missing(obj) & missing(b_sims) & !missing(mu) & !missing(Sigma))
+        b_sims <- b_sim(mu = mu, Sigma = Sigma, nsim = nsim)
 
     if (missing(newdata) & !missing(obj))
         newdata <- find_scenarios(obj = obj, nsim = nsim,

@@ -3,7 +3,7 @@
 \name{linear_systematic}
 \alias{linear_systematic}
 \title{Find the systematic component in the linear form for fitted values in across
-each simulation (note largely for internal use in \code{\link{qi_builder}})}
+each simulation (note: largely for internal use by \code{\link{qi_builder}})}
 \source{
 King, Gary, Michael Tomz, and Jason Wittenberg. 2000. "Making the
 Most of Statistical Analyses: Improving Interpretation and Presentation."
@@ -14,7 +14,7 @@ linear_systematic(b_sims, newdata, inc_intercept = TRUE)
 }
 \arguments{
 \item{b_sims}{a data frame created by \code{\link{b_sim}} of simulated
-coefficients}
+coefficients.}
 
 \item{newdata}{a data frame of fitted values with column names corresponding
 to variable names in \code{b_sims}. Variables in \code{b_sim} not present
@@ -33,7 +33,7 @@ named \code{ls_}.
 }
 \description{
 Find the systematic component in the linear form for fitted values in across
-each simulation (note largely for internal use in \code{\link{qi_builder}})
+each simulation (note: largely for internal use by \code{\link{qi_builder}})
 }
 \examples{
 library(car)

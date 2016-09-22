@@ -103,10 +103,17 @@ test_that('qi_builder output validity', {
     linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df)
     linear_qi_c1 <- qi_builder(m1, newdata = fitted_df, ci = 1)
     linear_qi_slim1 <- qi_builder(m1, newdata = fitted_df, slim = TRUE)
-    linear_qi_slim2 <- qi_builder(m1, newdata = fitted_df, original_order = TRUE,
-                                 slim = TRUE)
+    linear_qi_slim2 <- qi_builder(m1, newdata = fitted_df,
+                                  original_order = TRUE, slim = TRUE)
 
     linear_qi_auto_newdata <- qi_builder(m1)
+
+    # Manually supply coefficient means and covariance matrix
+    coefs <- coef(m1)
+    vcov_matrix <- vcov(m1)
+
+    linear_qi_custom_mu_Sigma <- qi_builder(mu = coefs, Sigma = vcov_matrix,
+                                            newdata = fitted_df)
 
     # Predicted probabilities from logistic regression
     URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
@@ -129,6 +136,7 @@ test_that('qi_builder output validity', {
                                        'qi_median', 'qi_max'))
     expect_equal(nrow(linear_qi_auto_newdata), 88350)
     expect_false(all(linear_qi_slim1$education == linear_qi_slim2$education))
+    expect_equal(nrow(linear_qi_custom_mu_Sigma), nrow(linear_qi))
     expect_error(qi_builder(m1, nsim = 20000))
     expect_error(qi_builder(m2, m2_fitted, FUN = pr_function, ci = 950))
     expect_error(qi_builder(m2, m2_fitted, FUN = function(x, y){x + y}))
