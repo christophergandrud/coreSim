@@ -5,10 +5,17 @@
 \title{Simulate coefficients from a GLM by making draws from the multivariate
 normal distribution}
 \usage{
-b_sim(obj, nsim = 1000)
+b_sim(obj, mu, Sigma, nsim = 1000)
 }
 \arguments{
 \item{obj}{a fitted model object.}
+
+\item{mu}{an optional vector giving the means of the variables. If \code{obj}
+is supplied then \code{mu} is ignored.}
+
+\item{Sigma}{an optional positive-definite symmetric matrix specifying the
+covariance matrix of the variables. If \code{obj} is supplied then
+\code{Sigma} is ignored.}
 
 \item{nsim}{number of simulations to draw.}
 }
@@ -27,6 +34,12 @@ m1 <- lm(prestige ~ education + type, data = Prestige)
 
 # Create fitted values
 prestige_sims <- b_sim(m1)
+
+# Manually supply coefficient means and covariance matrix
+coefs <- coef(m1)
+vcov_matrix <- vcov(m1)
+
+prestige_sims_manual <- b_sim(mu = coefs, Sigma = vcov_matrix)
 
 }
 

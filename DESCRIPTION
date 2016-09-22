@@ -5,8 +5,8 @@ Title: Core Functionality for Simulating Quantities of Interest from Generalised
 Description: Core functions for simulating quantities of interest
     from generalised linear models (GLM). This package will form the backbone of
     a series of other packages that improve the interpretation of GLM estimates.
-Version: 0.2.1
-Date: 2016-06-27
+Version: 0.2.2
+Date: 2016-09-22
 Authors@R: c(
     person("Christopher", "Gandrud", email = "christopher.gandrud@gmail.com",
     role = c("aut", "cre"))
