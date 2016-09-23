@@ -3,9 +3,10 @@
 #' @param obj a fitted model object from which to base coefficient simulations
 #' on.
 #' @param newdata an optional data frame of fitted values with column names
-#' corresponding to variable names in \code{b_sims}. Note that variabless not
-#' included in \code{newdata} will be fitted at 0. If \code{missing}
-#' then observations used to fit the model in \code{obj} will be used.
+#' corresponding to coefficient names in \code{obj} or \code{mu}/\code{Sigma}.
+#' Note that variabless not included in \code{newdata} will be fitted at 0. If
+#' \code{missing} then observations used to fit the model in \code{obj} will be
+#' used.
 #' @param FUN a function for calculating how to find the quantity of interest
 #' from a vector of the fitted linear systematic component. It must return
 #' a numeric vector. If \code{missing} then a normal
@@ -19,7 +20,6 @@
 #' simulations in the central interval specified by \code{ci} for each fitted
 #' scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
 #' See \code{\link{qi_slimmer}} for more details.
-
 #' @param large_computation logical. If \code{newdata} is not supplied,
 #' whether to allow > 100000 simulated quantities of interest to be found.
 #' @param original_order logical whether or not to keep the original scenario
