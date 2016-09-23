@@ -40,11 +40,11 @@ b_sim <- function(obj, mu, Sigma, nsim = 1000)
         obj_vcov <- vcov(obj)
     }
     else if (missing(obj)) {
-        if (!is.vector(mu)) stop('mu must be a vector', .call = FALSE)
-        if (!is.matrix(Sigma)) stop('Sigma must be a matrix', .call = FALSE)
+        if (!is.vector(mu)) stop('mu must be a vector', call. = FALSE)
+        if (!is.matrix(Sigma)) stop('Sigma must be a matrix', call. = FALSE)
         if (length(mu) != nrow(Sigma) | length(mu) != ncol(Sigma))
-            stop("The length of mu and Sigma's rows and columns must all be the same length.",
-                 .call = FALSE)
+            stop("The length of mu and Sigma's rows and columns must be equal.",
+                 call. = FALSE)
 
         obj_coef <- mu
         obj_vcov <- Sigma
