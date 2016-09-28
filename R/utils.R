@@ -3,6 +3,10 @@
 #'
 #' @param df a data frame of simulated quantities of interest created by
 #' \code{\link{qi_builder}}.
+#' @param scenario_var character string of the variable name marking the
+#' scenarios.
+#' @param qi_var character string of the name of the variable with the
+#' simulated quantity of interest values.
 #'
 #' @return A data frame with the fitted values and the minimum (\code{qi_min}),
 #' median (\code{qi_median}), and maximum (\code{qi_max}) values from the
@@ -38,8 +42,11 @@
 #'
 #' @export
 
-qi_slimmer <- function(df){
+qi_slimmer <- function(df, scenario_var = 'scenario_', qi_var = 'qi_'){
     qi_ <- scenario_ <- NULL
+
+    names(df)[names(df) == qi_var] <- 'qi_'
+    names(df)[names(df) == scenario_var] <- 'scenario_'
 
     if (!(names(df)[[ncol(df)]] == 'scenario_'))
         df$scenario_ <- interaction(df[, 1:(ncol(df)-1)], drop = TRUE)
@@ -48,13 +55,15 @@ qi_slimmer <- function(df){
         summarise(qi_min = min(qi_),
                   qi_median = median(qi_),
                   qi_max = max(qi_)
-                  ) %>%
+        ) %>%
         data.frame
 
     scenarios_df <- df[!duplicated(df$scenario_), 1:(ncol(df)-2)] %>%
         data.frame(row.names = NULL)
     df_out <- cbind(scenarios_df, df_out)
     df_out$scenario_ <- NULL
+
+    names(df_out)[names(df_out) == 'qi_'] <- qi_var
     return(df_out)
 }
 

@@ -5,11 +5,17 @@
 \title{Find maximum, minimum, and median values for each scenario found using
 \code{\link{qi_builder}}}
 \usage{
-qi_slimmer(df)
+qi_slimmer(df, scenario_var = "scenario_", qi_var = "qi_")
 }
 \arguments{
 \item{df}{a data frame of simulated quantities of interest created by
 \code{\link{qi_builder}}.}
+
+\item{scenario_var}{character string of the variable name marking the
+scenarios.}
+
+\item{qi_var}{character string of the name of the variable with the
+simulated quantity of interest values.}
 }
 \value{
 A data frame with the fitted values and the minimum (\code{qi_min}),
