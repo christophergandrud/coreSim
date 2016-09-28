@@ -13,7 +13,7 @@ on.}
 
 \item{newdata}{an optional data frame of fitted values with column names
 corresponding to coefficient names in \code{obj} or \code{mu}/\code{Sigma}.
-Note that variabless not included in \code{newdata} will be fitted at 0. If
+Note that variables not included in \code{newdata} will be fitted at 0. If
 \code{missing} then observations used to fit the model in \code{obj} will be
 used.}
 

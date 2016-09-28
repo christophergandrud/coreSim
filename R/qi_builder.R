@@ -4,7 +4,7 @@
 #' on.
 #' @param newdata an optional data frame of fitted values with column names
 #' corresponding to coefficient names in \code{obj} or \code{mu}/\code{Sigma}.
-#' Note that variabless not included in \code{newdata} will be fitted at 0. If
+#' Note that variables not included in \code{newdata} will be fitted at 0. If
 #' \code{missing} then observations used to fit the model in \code{obj} will be
 #' used.
 #' @param FUN a function for calculating how to find the quantity of interest
@@ -30,8 +30,9 @@
 #' @param mu an optional vector giving the means of the variables. If \code{obj}
 #' or \code{b_sims} is supplied then \code{mu} is ignored.
 #' @param Sigma an optional positive-definite symmetric matrix specifying the
-#' covariance matrix of the variables. If \code{obj} or \code{b_sims} is
-#' supplied then \code{Sigma} is ignored.
+#' covariance matrix of the variables. If \code{obj} is supplied then
+#' \code{Sigma} is ignored. If your model includes an intercept, this should be
+#' given the name \code{intercept_}.
 #' @param ... arguments to passed to \code{\link{linear_systematic}}.
 #'
 #' @return If \code{slimmer = FALSE} a data frame of fitted values supplied in
@@ -104,7 +105,9 @@ qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
 
     if (!missing(obj)) b_sims <- b_sim(obj = obj, nsim = nsim)
 
-    if (missing(obj) & missing(b_sims) & !missing(mu) & !missing(Sigma))
+    else if (missing(obj) & !missing(b_sims)) b_sims <- b_sims
+
+    else if (missing(obj) & missing(b_sims) & !missing(mu) & !missing(Sigma))
         b_sims <- b_sim(mu = mu, Sigma = Sigma, nsim = nsim)
 
     if (missing(newdata) & !missing(obj))
@@ -142,8 +145,8 @@ qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
         qi_df$scenario_ <- interaction(qi_df[, 1:(ncol(qi_df)-1)])
         if (original_order)
             qi_df$scenario_ <- factor(qi_df$scenario_, levels = orig_order)
-        qi_list <- split(qi_df, qi_df[['scenario_']])
 
+        qi_list <- split(qi_df, qi_df[['scenario_']])
         qi_list <- lapply(seq_along(qi_list), function(x){
             lower_bound <- quantile(qi_list[[x]][,'qi_'], prob = lower)
             upper_bound <- quantile(qi_list[[x]][,'qi_'], prob = upper)

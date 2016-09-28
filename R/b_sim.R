@@ -6,7 +6,8 @@
 #' is supplied then \code{mu} is ignored.
 #' @param Sigma an optional positive-definite symmetric matrix specifying the
 #' covariance matrix of the variables. If \code{obj} is supplied then
-#' \code{Sigma} is ignored.
+#' \code{Sigma} is ignored. If your model includes an intercept, this should be
+#' given the name \code{intercept_}.
 #' @param nsim number of simulations to draw.
 #'
 #' @return A data frame of simulated coefficients from \code{obj}.
@@ -52,6 +53,8 @@ b_sim <- function(obj, mu, Sigma, nsim = 1000)
 
     drawn <- mvrnorm(n = nsim, mu = obj_coef, Sigma = obj_vcov)
     drawn <- data.frame(drawn)
+
+    if (missing (obj)) names(drawn) <- colnames(obj_vcov)
 
     if (grepl('intercept', names(drawn[1]), ignore.case = TRUE))
         names(drawn)[1] <- 'intercept_'
