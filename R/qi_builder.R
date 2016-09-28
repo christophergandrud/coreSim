@@ -134,9 +134,6 @@ qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
     }
 
     if (ci < 1) {
-        lower <- (1 - ci)/2
-        upper <- 1 - lower
-
         if (original_order) {
             orig_order <- unique(qi_df[, 1:(ncol(qi_df)-1)])
             orig_order <- apply(orig_order, 1, paste, collapse = '.')
@@ -146,14 +143,9 @@ qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
         if (original_order)
             qi_df$scenario_ <- factor(qi_df$scenario_, levels = orig_order)
 
-        qi_list <- split(qi_df, qi_df[['scenario_']])
-        qi_list <- lapply(seq_along(qi_list), function(x){
-            lower_bound <- quantile(qi_list[[x]][,'qi_'], prob = lower)
-            upper_bound <- quantile(qi_list[[x]][,'qi_'], prob = upper)
-            subset(qi_list[[x]], qi_ >= lower_bound & qi_ <= upper_bound)
-        })
+        qi_df <- qi_central_interval(qi_df, scenario_var = 'scenario_',
+                                     qi_var= 'qi_', ci = ci)
 
-        qi_df <- data.frame(bind_rows(qi_list))
         if (!isTRUE(slim)) qi_df$scenario_ <- NULL
     }
 

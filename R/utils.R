@@ -302,3 +302,30 @@ extract_names <- function(x, sim_names, pattern) {
     sub_names <- sub_names[!(sub_names %in% names(x))]
     return(sub_names)
 }
+
+#' Constrict a data frame of simulated values to a central interval
+#' @param
+#'
+#' @importFrom dplyr bind_rows
+#' @noRd
+
+qi_central_interval <- function(sims_scenarios, scenario_var = 'scenario_',
+                                qi_var = 'qi_', ci = 0.95)
+{
+    lower <- (1 - ci)/2
+    upper <- 1 - lower
+
+    names(sims_scenarios)[names(sims_scenarios) == qi_var] <- 'qi_'
+
+    qi_list <- split(sims_scenarios, sims_scenarios[[scenario_var]])
+    qi_list <- lapply(seq_along(qi_list), function(x){
+        lower_bound <- quantile(qi_list[[x]][, 'qi_'], prob = lower)
+        upper_bound <- quantile(qi_list[[x]][, 'qi_'], prob = upper)
+        subset(qi_list[[x]], qi_ >= lower_bound & qi_ <= upper_bound)
+    })
+
+    out <- data.frame(bind_rows(qi_list))
+    names(out)[names(out) == 'qi_'] <- qi_var
+
+    return(out)
+}

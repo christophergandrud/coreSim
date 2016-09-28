@@ -2,6 +2,7 @@
 
 - Allow users to supply mu and Sigma values to `b_sim`.
 
+- Documentation and internal code improvements.
 
 # Version 0.2.1
 

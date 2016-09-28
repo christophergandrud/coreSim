@@ -15,7 +15,8 @@ is supplied then \code{mu} is ignored.}
 
 \item{Sigma}{an optional positive-definite symmetric matrix specifying the
 covariance matrix of the variables. If \code{obj} is supplied then
-\code{Sigma} is ignored.}
+\code{Sigma} is ignored. If your model includes an intercept, this should be
+given the name \code{intercept_}.}
 
 \item{nsim}{number of simulations to draw.}
 }

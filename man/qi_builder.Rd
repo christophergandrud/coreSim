@@ -48,8 +48,9 @@ simulated coefficients. Only used if \code{obj} is not supplied.}
 or \code{b_sims} is supplied then \code{mu} is ignored.}
 
 \item{Sigma}{an optional positive-definite symmetric matrix specifying the
-covariance matrix of the variables. If \code{obj} or \code{b_sims} is
-supplied then \code{Sigma} is ignored.}
+covariance matrix of the variables. If \code{obj} is supplied then
+\code{Sigma} is ignored. If your model includes an intercept, this should be
+given the name \code{intercept_}.}
 
 \item{...}{arguments to passed to \code{\link{linear_systematic}}.}
 }
