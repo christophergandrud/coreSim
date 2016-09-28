@@ -5,7 +5,8 @@
 \title{Find quantities of interest from generalized linear models}
 \usage{
 qi_builder(obj, newdata, FUN, ci = 0.95, nsim = 1000, slim = FALSE,
-  large_computation = FALSE, original_order = FALSE, b_sims, mu, Sigma, ...)
+  large_computation = FALSE, original_order = FALSE, b_sims, mu, Sigma,
+  verbose = TRUE, ...)
 }
 \arguments{
 \item{obj}{a fitted model object from which to base coefficient simulations
@@ -25,7 +26,8 @@ linear regression model is assumed and the predicted values are returned
 \code{\link{linear_systematic}}).}
 
 \item{ci}{the proportion of the central interval of the simulations to
-return. Must be in (0, 1] or equivalently (0, 100].}
+return. Must be in (0, 1] or equivalently (0, 100]. Note: if \code{ci = 1}
+then the full interval (i.e. 100 percent) is assumed.}
 
 \item{nsim}{number of simulations to draw.}
 
@@ -51,6 +53,8 @@ or \code{b_sims} is supplied then \code{mu} is ignored.}
 covariance matrix of the variables. If \code{obj} is supplied then
 \code{Sigma} is ignored. If your model includes an intercept, this should be
 given the name \code{intercept_}.}
+
+\item{verbose}{logical. Whether to include full set of messages or not.}
 
 \item{...}{arguments to passed to \code{\link{linear_systematic}}.}
 }

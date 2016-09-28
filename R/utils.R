@@ -310,7 +310,7 @@ extract_names <- function(x, sim_names, pattern) {
 #' scenarios.
 #' @param qi_var character string of the name of the variable with the
 #' simulated quantity of interest values.
-#' @param ci numeric value indicating the central interval. Must be in (0, 1]
+#' @param ci numeric value indicating the central interval. Must be in (0, 1].
 #'
 #' @importFrom dplyr bind_rows
 #' @noRd
@@ -319,6 +319,7 @@ qi_central_interval <- function(sims_scenarios, scenario_var = 'scenario_',
                                 qi_var = 'qi_', ci = 0.95)
 {
     qi_ <- NULL
+
     lower <- (1 - ci)/2
     upper <- 1 - lower
 

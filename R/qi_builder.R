@@ -15,7 +15,8 @@
 #' \code{\link{linear_systematic}}).
 #' @param nsim number of simulations to draw.
 #' @param ci the proportion of the central interval of the simulations to
-#' return. Must be in (0, 1] or equivalently (0, 100].
+#' return. Must be in (0, 1] or equivalently (0, 100]. Note: if \code{ci = 1}
+#' then the full interval (i.e. 100 percent) is assumed.
 #' @param slim logical indicating whether to (if \code{FALSE}) return all
 #' simulations in the central interval specified by \code{ci} for each fitted
 #' scenario or (if \code{TRUE}) just the minimum, median, and maxium values.
@@ -33,6 +34,7 @@
 #' covariance matrix of the variables. If \code{obj} is supplied then
 #' \code{Sigma} is ignored. If your model includes an intercept, this should be
 #' given the name \code{intercept_}.
+#' @param verbose logical. Whether to include full set of messages or not.
 #' @param ... arguments to passed to \code{\link{linear_systematic}}.
 #'
 #' @return If \code{slimmer = FALSE} a data frame of fitted values supplied in
@@ -97,10 +99,11 @@
 qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
                       slim = FALSE,  large_computation = FALSE,
                       original_order = FALSE,
-                      b_sims, mu, Sigma,
+                      b_sims, mu, Sigma, verbose = TRUE,
                       ...)
 {
     qi_ <- NULL
+
     ci <- ci_check(ci)
 
     if (!missing(obj)) b_sims <- b_sim(obj = obj, nsim = nsim)
@@ -119,7 +122,8 @@ qi_builder <- function(obj, newdata, FUN, ci = 0.95, nsim = 1000,
     qi_df <- linear_systematic(b_sims = b_sims, newdata = newdata, ...)
 
     if (missing(FUN)) {
-        message('Note: FUN argument missing -> assuming b_sims is from a normal linear model.\n')
+        if (verbose)
+            message('Note: FUN argument missing -> assuming b_sims is from a normal linear model.\n')
         names(qi_df)[grep('ls_', names(qi_df))] <- 'qi_'
     }
     else {
