@@ -91,7 +91,6 @@
 #' logistic_qi_2 <- qi_builder(m2, m2_fitted, FUN = pr_function,
 #'                          slim = TRUE)
 #'
-#' @importFrom stats quantile
 #' @importFrom dplyr bind_rows
 #'
 #' @export

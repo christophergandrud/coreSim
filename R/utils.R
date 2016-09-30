@@ -321,6 +321,7 @@ extract_names <- function(x, sim_names, pattern) {
 #' simulated quantity of interest values.
 #' @param ci numeric value indicating the central interval. Must be in (0, 1].
 #'
+#' @importFrom stats quantile
 #' @importFrom dplyr bind_rows
 #' @noRd
 
