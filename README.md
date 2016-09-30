@@ -1,7 +1,9 @@
 ![coreSim logo](img/coreSim_logo.png)
 
-Version: 0.2.1 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
+Version: 0.2.2 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 [![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
+![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/coreSim)
+![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/coreSim)
 
 > Core functionality for simulating quantities of interest from generalised 
 linear models.
@@ -24,15 +26,15 @@ the simulation approach to showing GLM results. The main previous implementation
 
 **coreSim** aims to overcome these issue with a focus on *simplicity*. It tries to:
 
-- Do a few things really well.
+- Do a small set of things really well.
 
-- Have as few dependencies as possible. Only import packages if they make significant performance improvements over what is available in base R.
+- Have as few dependencies as possible. Only import packages if they make significant performance improvements over base R.
 
-- Return simple `data.frame` output. 
+- Return simple `data.frame` output that can be easily manipulated. 
 
-- Have informative error messages that are easy for users to understand.
+- Have informative error messages that are easy for users to understand and which guide them to solutions.
 
-Additionally, **coreSim** is aiming for very high reliability. Simplicity helps with this, so does aiming for 100% code test coverage.
+Additionally, **coreSim** aims for very high reliability. Simplicity helps with acheive this goal. So does aiming for 100% code test coverage.
 
 These characteristics allow **coreSim** to form the backbone of many specific and unanticipated implementations of the simulation approach. 
 
@@ -77,12 +79,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 18.43851
-## 2         6      1 17.12221
-## 3         6      1 16.31412
-## 4         6      1 15.36899
-## 5         6      1 17.42337
-## 6         6      1 16.27303
+## 1         6      1 18.07876
+## 2         6      1 16.92701
+## 3         6      1 12.64284
+## 4         6      1 26.58471
+## 5         6      1 23.56807
+## 6         6      1 18.24134
 ```
 
 ### Slimmed simulation data
@@ -104,12 +106,12 @@ head(linear_qi_slim)
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 12.08147  19.27556 26.20059
-## 2         7      1 17.60270  23.85940 29.55701
-## 3         8      1 23.32574  28.42297 33.21622
-## 4         9      1 28.70608  33.00837 36.96313
-## 5        10      1 33.97227  37.55456 40.95404
-## 6        11      1 38.81737  42.17744 45.28413
+## 1         6      1 11.38652  19.29974 26.91071
+## 2         7      1 17.43258  23.78789 30.23276
+## 3         8      1 23.26884  28.35467 33.57779
+## 4         9      1 28.76827  33.01249 37.11156
+## 5        10      1 34.08686  37.52986 41.06094
+## 6        11      1 38.96442  42.15202 45.31919
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -169,12 +171,12 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4      qi_min  qi_median     qi_max
-## 1 220   1     1 0.002876056 0.01471823 0.06715281
-## 2 230   1     1 0.002929712 0.01512821 0.06810113
-## 3 240   1     1 0.003012824 0.01550514 0.06886728
-## 4 250   1     1 0.003055952 0.01583588 0.06942914
-## 5 260   1     1 0.003160715 0.01618569 0.07080234
-## 6 270   1     1 0.003269221 0.01662598 0.07201980
+## 1 220   1     1 0.002882428 0.01405739 0.07087553
+## 2 230   1     1 0.002922072 0.01427416 0.07195429
+## 3 240   1     1 0.002955012 0.01453214 0.07304819
+## 4 250   1     1 0.003065874 0.01482442 0.07415738
+## 5 260   1     1 0.003096630 0.01518535 0.07536753
+## 6 270   1     1 0.003127919 0.01565653 0.07642237
 ```
 
 
