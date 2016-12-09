@@ -1,3 +1,7 @@
+# Version 0.2.3
+
+- Internal cleanup of function tests.
+
 # Version 0.2.2
 
 - Allow users to supply mu and Sigma values to `b_sim`.

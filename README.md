@@ -1,6 +1,6 @@
 ![coreSim logo](img/coreSim_logo.png)
 
-Version: 0.2.2 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
+Version: 0.2.3 [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 [![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
 ![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/coreSim)
 ![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/coreSim)
@@ -79,12 +79,12 @@ head(linear_qi)
 
 ```
 ##   education typewc      qi_
-## 1         6      1 18.07876
-## 2         6      1 16.92701
-## 3         6      1 12.64284
-## 4         6      1 26.58471
-## 5         6      1 23.56807
-## 6         6      1 18.24134
+## 1         6      1 20.84429
+## 2         6      1 14.89540
+## 3         6      1 24.71340
+## 4         6      1 23.34168
+## 5         6      1 17.51687
+## 6         6      1 19.96748
 ```
 
 ### Slimmed simulation data
@@ -106,12 +106,12 @@ head(linear_qi_slim)
 
 ```
 ##   education typewc   qi_min qi_median   qi_max
-## 1         6      1 11.38652  19.29974 26.91071
-## 2         7      1 17.43258  23.78789 30.23276
-## 3         8      1 23.26884  28.35467 33.57779
-## 4         9      1 28.76827  33.01249 37.11156
-## 5        10      1 34.08686  37.52986 41.06094
-## 6        11      1 38.96442  42.15202 45.31919
+## 1         6      1 12.22859  19.29187 26.34032
+## 2         7      1 17.94820  23.84586 29.64656
+## 3         8      1 23.66591  28.38946 33.19172
+## 4         9      1 28.96638  32.90540 36.89245
+## 5        10      1 34.31842  37.42962 40.86719
+## 6        11      1 39.05190  42.02271 45.14107
 ```
 
 The slimmed simulation data set can be efficiently plotted, for example using
@@ -171,12 +171,12 @@ head(logistic_qi)
 
 ```
 ##   gre gpa rank4      qi_min  qi_median     qi_max
-## 1 220   1     1 0.002882428 0.01405739 0.07087553
-## 2 230   1     1 0.002922072 0.01427416 0.07195429
-## 3 240   1     1 0.002955012 0.01453214 0.07304819
-## 4 250   1     1 0.003065874 0.01482442 0.07415738
-## 5 260   1     1 0.003096630 0.01518535 0.07536753
-## 6 270   1     1 0.003127919 0.01565653 0.07642237
+## 1 220   1     1 0.003046593 0.01461161 0.05921190
+## 2 230   1     1 0.003108982 0.01488078 0.06093315
+## 3 240   1     1 0.003169259 0.01524163 0.06205189
+## 4 250   1     1 0.003271602 0.01550658 0.06284613
+## 5 260   1     1 0.003377238 0.01588699 0.06364984
+## 6 270   1     1 0.003486273 0.01624621 0.06446312
 ```
 
 

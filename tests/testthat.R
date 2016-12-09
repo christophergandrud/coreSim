@@ -3,4 +3,4 @@ library(coreSim)
 library(car)
 library(survival)
 
-test_check("coreSim")
+test_check("coreSim", report = 'summary')
