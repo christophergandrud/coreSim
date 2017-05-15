@@ -53,4 +53,3 @@ linear_qi <- qi_builder(b_sims = m1_sims, newdata = fitted_df, slim = FALSE)
 linear_slim <- qi_slimmer(linear_qi)
 
 }
-

@@ -1,3 +1,7 @@
+# Version 0.2.4
+
+- Admissions example data now included with package to avoid breaking URL.
+
 # Version 0.2.3
 
 - Internal cleanup of function tests.

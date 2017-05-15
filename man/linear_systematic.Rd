@@ -51,4 +51,3 @@ m1_sims <- b_sim(m1, nsim = 1000)
 ls <- linear_systematic(b_sims = m1_sims, newdata = fitted_df)
 
 }
-

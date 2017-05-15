@@ -26,8 +26,7 @@ test_that('qi_builder output validity', {
                                             newdata = fitted_df)
 
     # Predicted probabilities from logistic regression
-    URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
-    Admission <- read.csv(URL)
+    data(Admission)
     Admission$rank <- as.factor(Admission$rank)
     m2 <- glm(admit ~ gre + gpa + rank, data = Admission, family = 'binomial')
 

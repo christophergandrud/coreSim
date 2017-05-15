@@ -95,9 +95,8 @@ linear_qi_custom_mu_Sigma <- qi_builder(mu = coefs, Sigma = vcov_matrix,
                                  newdata = fitted_df_1)
 
 ## Logistic regression
-# Download data
-URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
-Admission <- read.csv(URL)
+# Load data
+data(Admission)
 Admission$rank <- as.factor(Admission$rank)
 
 # Estimate model
@@ -117,4 +116,3 @@ logistic_qi_2 <- qi_builder(m2, m2_fitted, FUN = pr_function,
                          slim = TRUE)
 
 }
-

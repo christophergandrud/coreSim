@@ -43,4 +43,3 @@ vcov_matrix <- vcov(m1)
 prestige_sims_manual <- b_sim(mu = coefs, Sigma = vcov_matrix)
 
 }
-

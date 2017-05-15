@@ -70,9 +70,8 @@
 #'                                  newdata = fitted_df_1)
 #'
 #' ## Logistic regression
-#' # Download data
-#' URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
-#' Admission <- read.csv(URL)
+#' # Load data
+#' data(Admission)
 #' Admission$rank <- as.factor(Admission$rank)
 #'
 #' # Estimate model
