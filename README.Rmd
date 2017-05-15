@@ -1,6 +1,22 @@
+---
+output: md_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(
+        stop_on_error = 2L
+)
+knitr::opts_chunk$set(
+        fig.path="man/figures/"
+)
+```
+
 ![coreSim logo](img/coreSim_logo.png)
 
-Version: `r  packageVersion('coreSim')` [![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
+Version: `r  packageVersion('coreSim')` [![CRAN Version](http://www.r-pkg.org/badges/version/Zelig)](http://cran.r-project.org/package=Zelig)
+[![Build Status](https://travis-ci.org/christophergandrud/coreSim.svg?branch=master)](https://travis-ci.org/christophergandrud/coreSim)
 [![codecov.io](https://codecov.io/github/christophergandrud/coreSim/coverage.svg?branch=master)](https://codecov.io/github/christophergandrud/coreSim?branch=master)
 ![CRAN Monthly Downloads](http://cranlogs.r-pkg.org/badges/last-month/coreSim)
 ![CRAN Total Downloads](http://cranlogs.r-pkg.org/badges/grand-total/coreSim)
